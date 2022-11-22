@@ -36,7 +36,7 @@ export default class TextBox implements MenuItem, Observer {
     private yPos: number = 0;
 
     constructor(menuItemRenderer: MenuItemRenderer, bgText: string, width: number, height: number, weight: number, inputManager: InputManagerSubject, fontSize: number, font: string, onAscButtonPress: Function) {
-        this.menuItemRenderer = menuItemRenderer.make();
+        this.menuItemRenderer = menuItemRenderer;
         this.bgText = bgText;
         this.width = width;
         this.height = height;

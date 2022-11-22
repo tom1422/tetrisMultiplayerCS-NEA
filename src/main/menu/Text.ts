@@ -21,7 +21,7 @@ export default class Text implements MenuItem {
     private yPos: number = 0;
 
     constructor(menuItemRenderer: MenuItemRenderer, text: string, fontSize: number, colour: Colour, weight: number, align: number, font: string) {
-        this.menuItemRenderer = menuItemRenderer.make();
+        this.menuItemRenderer = menuItemRenderer;
         this.text = text;
         this.fontSize = fontSize;
         this.weight = weight;

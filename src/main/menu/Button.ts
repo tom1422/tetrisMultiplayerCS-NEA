@@ -39,7 +39,7 @@ export default class Button implements MenuItem {
     private yPos: number = 0;
 
     constructor(menuItemRenderer: MenuItemRenderer, text: string, width: number, height: number, weight: number, callback: Function) {
-        this.menuItemRenderer = menuItemRenderer.make();
+        this.menuItemRenderer = menuItemRenderer;
         this.text = text;
         this.width = width;
         this.height = height;

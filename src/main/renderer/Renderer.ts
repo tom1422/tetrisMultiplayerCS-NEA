@@ -5,14 +5,14 @@ import GridRendererP5 from "./SpecificRenderers/GridRendererP5";
 import MenuItemRenderer from "./SpecificRenderers/MenuItemRenderer";
 import MenuItemRendererP5 from "./SpecificRenderers/MenuItemRendererP5";
 import wumThree2D from "../../three/wumThree2D";
+import MenuItemRendererWT2 from "./SpecificRenderers/MenuItemRendererWT2";
+import GridRendererWT2 from "./SpecificRenderers/GridRendererWT2";
 
 export default class Renderer {
 
     sketch: p5;
     wt2: wumThree2D;
 
-    gridRenderer: GridRenderer;
-    menuItemRenderer: MenuItemRenderer;
     backgroundManager: BackgroundManager;
 
     abstractRendererUpdateFunctions: Function[] = [];
@@ -30,17 +30,10 @@ export default class Renderer {
 
     constructor(p5?: p5, wt2?: wumThree2D) {
         if (p5 != undefined) {
-            this.gridRenderer = new GridRendererP5(p5, this);
-            this.menuItemRenderer = new MenuItemRendererP5(p5, this);
             this.sketch = p5;
         } else if (wt2 != undefined) {
-            // this.gridRenderer = new GridRendererP5(p5, this);
-            // this.menuItemRenderer = new MenuItemRendererP5(p5, this);
             this.wt2 = wt2;
         }
-
-        this.abstractRendererUpdateFunctions.push(this.gridRenderer.getUpdateLoop());
-        this.abstractRendererUpdateFunctions.push(this.menuItemRenderer.getUpdateLoop());
 
         this.backgroundManager = new BackgroundManager(p5, wt2);
 
@@ -63,22 +56,32 @@ export default class Renderer {
     }
 
     update(): void {
-        if (p5 != undefined) {
+        if (this.sketch != undefined) {
             this.backgroundManager.update();
             this.sketch.fill(255, 204 ,0);
             this.sketch.circle(20, 20, 300);
         }
     }
 
-    makeMenuItemRendererP5(): MenuItemRendererP5 {
-        const set = new MenuItemRendererP5(this.sketch);
+    makeMenuItemRenderer(): MenuItemRenderer {
+        let set = undefined;
+        if (this.sketch != undefined) {
+            set = new MenuItemRendererP5(this.sketch);
+        } else if (this.wt2 != undefined) {
+            set = new MenuItemRendererWT2(this.wt2);
+        }
         this.abstractRendererUpdateFunctions.push(set.getUpdateLoop());
         return set;
     }
 
-    makeGridRendererP5(): GridRendererP5 {
-        const set = new GridRendererP5(this.sketch);
-        this.abstractRendererUpdateFunctions.push(set.getUpdateLoop);
+    makeGridRenderer(): GridRenderer {
+        let set = undefined;
+        if (this.sketch != undefined) {
+            set = new GridRendererP5(this.sketch);
+        } else if (this.wt2 != undefined) {
+            set = new GridRendererWT2(this.wt2);
+        }
+        this.abstractRendererUpdateFunctions.push(set.getUpdateLoop());
         return set;
     }
 }

@@ -3,30 +3,31 @@ import Lobby from "./data/Lobby";
 import GridManager from "../GridManager";
 import GridRenderer from "../renderer/SpecificRenderers/GridRenderer";
 import TetrisGrid from "../TetrisGrid";
+import Renderer from "../renderer/Renderer";
 
 export default class MultiplayerVisual {
 
     gridVisuals: Map<string, GridVisual> = new Map();
     lobby: Lobby;
-    gridRenderer: GridRenderer;
+    renderer: Renderer;
     yourGridVisual: GridVisual;
 
-    constructor(lobby: Lobby, gridRenderer: GridRenderer, yourGridVisual: GridVisual) {
+    constructor(lobby: Lobby, renderer: Renderer, yourGridVisual: GridVisual) {
         this.lobby = lobby;
-        this.gridRenderer= gridRenderer;
+        this.renderer=renderer;
         this.yourGridVisual = yourGridVisual;
     }
 
     setup() {
         for (let i: number = 1; i < this.lobby.users.length; i++) {
-            this.gridVisuals.set(this.lobby.users[i].userID, new GridVisual(new TetrisGrid(10, 20), this.gridRenderer.make()));
+            this.gridVisuals.set(this.lobby.users[i].userID, new GridVisual(new TetrisGrid(10, 20), this.renderer.makeGridRenderer()));
         }
     }
 
     draw() {
         //Constants
         const gridWidth: number = 350;
-        const windowWidth: number = this.gridRenderer.canvasWidth;
+        const windowWidth: number = this.renderer.width;
         const gridsPerLine: number = Math.floor(windowWidth / gridWidth);
         const edgeOverflow: number = windowWidth - (((gridsPerLine < this.lobby.users.length) ? gridsPerLine : this.lobby.users.length) * gridWidth);
 

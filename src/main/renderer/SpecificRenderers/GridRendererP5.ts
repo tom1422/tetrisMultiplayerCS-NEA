@@ -16,7 +16,7 @@ export default class GridRendererP5 implements GridRenderer {
 
 
 
-    constructor(sketch: p5, renderer?: Renderer) {
+    constructor(sketch: p5) {
         this.sketch = sketch;
     }
 
@@ -26,14 +26,6 @@ export default class GridRendererP5 implements GridRenderer {
 
     getUpdateLoop(): Function {
         return this.updateLoop.bind(this);
-    }
-
-    make(): GridRenderer {
-        if (this.renderer == undefined) {
-            console.error("Attempt to make another renderer from non-base renderer!")
-            return;
-        }
-        return this.renderer.makeGridRendererP5();
     }
 
     clearObjects(): void {

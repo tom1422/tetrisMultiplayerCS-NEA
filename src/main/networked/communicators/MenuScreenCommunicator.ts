@@ -22,20 +22,20 @@ export default class MenuScreenCommunicator {
     }
 
     buildMenuScreen() {
-        this.menuTitle = new Text(this.menuScreen.renderer.menuItemRenderer, "Lobby: ", 30, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[0]);
+        this.menuTitle = new Text(this.menuScreen.renderer.makeMenuItemRenderer(), "Lobby: ", 30, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[0]);
         this.menuScreen.registerItem(4, this.menuTitle);
-        this.menuScreen.registerItem(4, new Button(this.menuScreen.renderer.menuItemRenderer, "<- Exit Lobby", 220, 50, 2, () => {this.multiplayerManager.tryLeaveLobby();}));
+        this.menuScreen.registerItem(4, new Button(this.menuScreen.renderer.makeMenuItemRenderer(), "<- Exit Lobby", 220, 50, 2, () => {this.multiplayerManager.tryLeaveLobby();}));
 
-        this.menuUsers = new Table(this.menuScreen.renderer.menuItemRenderer, 1, 4, 220, 30);
-        this.menuUsers.addMenuItem(0, 0, new Text(this.menuScreen.renderer.menuItemRenderer, "Connected Users: ", 23, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[1]));
+        this.menuUsers = new Table(this.menuScreen.renderer.makeMenuItemRenderer(), 1, 4, 220, 30);
+        this.menuUsers.addMenuItem(0, 0, new Text(this.menuScreen.renderer.makeMenuItemRenderer(), "Connected Users: ", 23, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[1]));
         this.menuScreen.registerItem(4, this.menuUsers);
-        this.menuScreen.registerItem(4, new Button(this.menuScreen.renderer.menuItemRenderer, "Start Game", 220, 50, 2, () => {this.multiplayerManager.requestStartGame();}));
+        this.menuScreen.registerItem(4, new Button(this.menuScreen.renderer.makeMenuItemRenderer(), "Start Game", 220, 50, 2, () => {this.multiplayerManager.requestStartGame();}));
     }
 
     buildEndGameScreen() {
-        this.menuScreen.registerItem(6, new Text(this.menuScreen.renderer.menuItemRenderer, "Game Over", 30, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[0]));
-        this.menuScreen.registerItem(6, new Button(this.menuScreen.renderer.menuItemRenderer, "Return to lobby", 220, 50, 2, () => {this.multiplayerManager.returnToLobby();}));
-        this.menuScreen.registerItem(6, new Button(this.menuScreen.renderer.menuItemRenderer, "<- Back to main menu", 220, 50, 2, () => {this.multiplayerManager.tryLeaveLobby();}));
+        this.menuScreen.registerItem(6, new Text(this.menuScreen.renderer.makeMenuItemRenderer(), "Game Over", 30, new Colour(0, 0, 0), 2, 1, this.menuScreen.renderer.font[0]));
+        this.menuScreen.registerItem(6, new Button(this.menuScreen.renderer.makeMenuItemRenderer(), "Return to lobby", 220, 50, 2, () => {this.multiplayerManager.returnToLobby();}));
+        this.menuScreen.registerItem(6, new Button(this.menuScreen.renderer.makeMenuItemRenderer(), "<- Back to main menu", 220, 50, 2, () => {this.multiplayerManager.tryLeaveLobby();}));
     }
 
     updateMenuScreenData() {
@@ -43,7 +43,7 @@ export default class MenuScreenCommunicator {
         let users = this.multiplayerManager.lobby.users;
         this.menuUsers.resize(users.length + 1);
         for (let i = 0; i < users.length; i++) {
-            this.menuUsers.addMenuItem(1 + i, 0, new Text(this.menuScreen.renderer.menuItemRenderer, users[i].username, 23, new Colour(2,2, 2), 23, 0, this.menuScreen.renderer.font[2]));
+            this.menuUsers.addMenuItem(1 + i, 0, new Text(this.menuScreen.renderer.makeMenuItemRenderer(), users[i].username, 23, new Colour(2,2, 2), 23, 0, this.menuScreen.renderer.font[2]));
         }
     }
 

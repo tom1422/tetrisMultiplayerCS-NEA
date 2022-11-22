@@ -10,8 +10,6 @@ export default interface MenuItemRenderer {
 
     getUpdateLoop(): Function;
 
-    make(): MenuItemRenderer; //Makes a new renderer for the active class
-
     drawThisFrame(): void;      //Called each frame to keep it rendered
     clearObjects(): void;       //Delete all rendered objects
 

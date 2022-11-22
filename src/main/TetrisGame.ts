@@ -51,7 +51,7 @@ export default class tetrisGame {
         this.multiplayerManager = new Multiplayer(this.startMultiplayerGame.bind(this), this.endMultiplayerGame.bind(this));
         this.menuScreen = new MenuScreen(this.rendererClass);
         this.multiplayerManager.menuScreenTalker = new MenuScreenCommunicator(this.multiplayerManager, this.menuScreen);
-        this.menuScreenSetup(this.rendererClass.menuItemRenderer);
+        this.menuScreenSetup();
     }
 
     update():void {
@@ -73,87 +73,87 @@ export default class tetrisGame {
 
     //Everything past here is menu screen related
 
-    menuScreenSetup(menuItemRenderer: MenuItemRenderer): void {
-        this.m1(menuItemRenderer);
-        this.m2(menuItemRenderer);
-        this.m3(menuItemRenderer);
-        this.m5(menuItemRenderer);
+    menuScreenSetup(): void {
+        this.m1();
+        this.m2();
+        this.m3();
+        this.m5();
     }
 
-    m1(menuItemRenderer: MenuItemRenderer) {
-        this.menuScreen.registerItem(1, new Text(menuItemRenderer, "Tetris Game", 30, new Colour(0, 0, 0), 2,1, this.rendererClass.font[0]));
-        this.menuScreen.registerItem(1, new Button(menuItemRenderer, "Start New Game", 220, 50, 2, this.startGame.bind(this)));
-        this.menuScreen.registerItem(1, new Button(menuItemRenderer, "Multiplayer", 220, 50, 2, () => {this.menuScreen.screenType = 3;}));
-        this.menuScreen.registerItem(1, new Button(menuItemRenderer, "Controls/Help", 220, 50, 2, () => {this.menuScreen.screenType = 5;}));
-        this.menuScreen.registerItem(1, new Button(menuItemRenderer, "Leaderboards", 220, 50, 2, () => {}));
+    m1() {
+        this.menuScreen.registerItem(1, new Text(this.rendererClass.makeMenuItemRenderer(), "Tetris Game", 30, new Colour(0, 0, 0), 2,1, this.rendererClass.font[0]));
+        this.menuScreen.registerItem(1, new Button(this.rendererClass.makeMenuItemRenderer(), "Start New Game", 220, 50, 2, this.startGame.bind(this)));
+        this.menuScreen.registerItem(1, new Button(this.rendererClass.makeMenuItemRenderer(), "Multiplayer", 220, 50, 2, () => {this.menuScreen.screenType = 3;}));
+        this.menuScreen.registerItem(1, new Button(this.rendererClass.makeMenuItemRenderer(), "Controls/Help", 220, 50, 2, () => {this.menuScreen.screenType = 5;}));
+        this.menuScreen.registerItem(1, new Button(this.rendererClass.makeMenuItemRenderer(), "Leaderboards", 220, 50, 2, () => {}));
     }
 
-    m2(menuItemRenderer: MenuItemRenderer) {
-        this.menuScreen.registerItem(2, new Text(menuItemRenderer, "", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
-        this.menuScreen.registerItem(2, new Button(menuItemRenderer, "Start New Game", 220, 50, 2, this.startGame.bind(this)));
-        this.menuScreen.registerItem(2, new Button(menuItemRenderer, "<- Back to main menu", 220, 50, 2, () => {this.resetGame()}));
+    m2() {
+        this.menuScreen.registerItem(2, new Text(this.rendererClass.makeMenuItemRenderer(), "", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
+        this.menuScreen.registerItem(2, new Button(this.rendererClass.makeMenuItemRenderer(), "Start New Game", 220, 50, 2, this.startGame.bind(this)));
+        this.menuScreen.registerItem(2, new Button(this.rendererClass.makeMenuItemRenderer(), "<- Back to main menu", 220, 50, 2, () => {this.resetGame()}));
     }
 
-    m3(menuItemRenderer: MenuItemRenderer) {
-        this.menuScreen.registerItem(3, new Text(menuItemRenderer, "Multiplayer", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
+    m3() {
+        this.menuScreen.registerItem(3, new Text(this.rendererClass.makeMenuItemRenderer(), "Multiplayer", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
 
-        let asda = new TextBox(menuItemRenderer, "username", 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0],
+        let asda = new TextBox(this.rendererClass.makeMenuItemRenderer(), "username", 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0],
             (username: string) => {this.gameSettings.username = username});
         this.menuScreen.registerItem(3, asda);
 
-        let lobbyIdMenu: Table = new Table(menuItemRenderer, 3, 1, 220, 50);
-        let textBox = new TextBox(menuItemRenderer, "lobby id", 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0],
+        let lobbyIdMenu: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 3, 1, 220, 50);
+        let textBox = new TextBox(this.rendererClass.makeMenuItemRenderer(), "lobby id", 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0],
             (lobbyId: string) => {this.multiplayerManager.joinLobby(this.gameSettings, lobbyId);});
         lobbyIdMenu.addMenuItem(0, 1, textBox);
 
-        let subTable1: Table = new Table(menuItemRenderer, 4, 1, 55, 50);
-        subTable1.addMenuItem(0, 0, new Button(menuItemRenderer, "-->", 55, 50, 2, () => {
+        let subTable1: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 4, 1, 55, 50);
+        subTable1.addMenuItem(0, 0, new Button(this.rendererClass.makeMenuItemRenderer(), "-->", 55, 50, 2, () => {
             asda.getLinkButtonMethod()();
             textBox.getLinkButtonMethod()();
         }));
         lobbyIdMenu.addMenuItem(0, 2, subTable1);
         this.menuScreen.registerItem(3, lobbyIdMenu);
 
-        this.menuScreen.registerItem(3, new Button(menuItemRenderer, "Host New Lobby", 220, 50, 2, () => {
+        this.menuScreen.registerItem(3, new Button(this.rendererClass.makeMenuItemRenderer(), "Host New Lobby", 220, 50, 2, () => {
             asda.getLinkButtonMethod()();
             this.multiplayerManager.joinLobby(this.gameSettings);}));
 
-        this.menuScreen.registerItem(3, new Button(menuItemRenderer, "<- Back to main menu", 220, 50, 2, this.resetGame.bind(this)));
+        this.menuScreen.registerItem(3, new Button(this.rendererClass.makeMenuItemRenderer(), "<- Back to main menu", 220, 50, 2, this.resetGame.bind(this)));
     }
 
-    m5(menuItemRenderer: MenuItemRenderer) {
-        this.menuScreen.registerItem(5, new Text(menuItemRenderer, "Controls, Help", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
+    m5() {
+        this.menuScreen.registerItem(5, new Text(this.rendererClass.makeMenuItemRenderer(), "Controls, Help", 30, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[0]));
 
-        this.menuScreen.registerItem(5, new Text(menuItemRenderer, "Specify alternate binds below, default ones are shown in brackets:", 15, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[1]));
-
-
-        let lobbyIdMenu: Table = new Table(menuItemRenderer, 2, 1, 275, 50);
-        lobbyIdMenu.addMenuItem(0, 0, this.getRow(menuItemRenderer, "rotate (w, uparr)", (bind: string) => {this.gameSettings.rotatebind = bind}));
-        lobbyIdMenu.addMenuItem(0, 1, this.getRow(menuItemRenderer, "down (s, downarr)", (bind: string) => {this.gameSettings.downbind = bind}));
+        this.menuScreen.registerItem(5, new Text(this.rendererClass.makeMenuItemRenderer(), "Specify alternate binds below, default ones are shown in brackets:", 15, new Colour(0, 0, 0), 2, 1, this.rendererClass.font[1]));
 
 
-        let lobbyIdMenu2: Table = new Table(menuItemRenderer, 2, 1, 275, 50);
-        lobbyIdMenu2.addMenuItem(0, 0, this.getRow(menuItemRenderer, "right (d, rightarr)", (bind: string) => {this.gameSettings.rightbind = bind}));
-        lobbyIdMenu2.addMenuItem(0, 1, this.getRow(menuItemRenderer, "left (a, leftarr)", (bind: string) => {this.gameSettings.leftbind = bind}));
+        let lobbyIdMenu: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 2, 1, 275, 50);
+        lobbyIdMenu.addMenuItem(0, 0, this.getRow( "rotate (w, uparr)", (bind: string) => {this.gameSettings.rotatebind = bind}));
+        lobbyIdMenu.addMenuItem(0, 1, this.getRow( "down (s, downarr)", (bind: string) => {this.gameSettings.downbind = bind}));
 
-        let lobbyIdMenu3: Table = new Table(menuItemRenderer, 2, 1, 275, 50);
-        lobbyIdMenu3.addMenuItem(0, 0, this.getRow(menuItemRenderer, "save (v)", (bind: string) => {this.gameSettings.savebind = bind}));
-        lobbyIdMenu3.addMenuItem(0, 1, this.getRow(menuItemRenderer, "place (space)", (bind: string) => {this.gameSettings.placebind = bind}));
+
+        let lobbyIdMenu2: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 2, 1, 275, 50);
+        lobbyIdMenu2.addMenuItem(0, 0, this.getRow( "right (d, rightarr)", (bind: string) => {this.gameSettings.rightbind = bind}));
+        lobbyIdMenu2.addMenuItem(0, 1, this.getRow( "left (a, leftarr)", (bind: string) => {this.gameSettings.leftbind = bind}));
+
+        let lobbyIdMenu3: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 2, 1, 275, 50);
+        lobbyIdMenu3.addMenuItem(0, 0, this.getRow( "save (v)", (bind: string) => {this.gameSettings.savebind = bind}));
+        lobbyIdMenu3.addMenuItem(0, 1, this.getRow( "place (space)", (bind: string) => {this.gameSettings.placebind = bind}));
 
         this.menuScreen.registerItem(5, lobbyIdMenu);
         this.menuScreen.registerItem(5, lobbyIdMenu2);
         this.menuScreen.registerItem(5, lobbyIdMenu3);
 
-        this.menuScreen.registerItem(5, new Button(menuItemRenderer, "<- Back to main menu", 220, 50, 2, this.resetGame.bind(this)));
+        this.menuScreen.registerItem(5, new Button(this.rendererClass.makeMenuItemRenderer(), "<- Back to main menu", 220, 50, 2, this.resetGame.bind(this)));
     }
 
-    getRow(menuItemRenderer: MenuItemRenderer, text: string, callback: Function): Table {
-        let lobbyIdMenu: Table = new Table(menuItemRenderer, 3, 1, 220, 50);
-        let textBox2 = new TextBox(menuItemRenderer, text, 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0], callback);
+    getRow(text: string, callback: Function): Table {
+        let lobbyIdMenu: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 3, 1, 220, 50);
+        let textBox2 = new TextBox(this.rendererClass.makeMenuItemRenderer(), text, 220, 50, 2, this.inputManager, 20, this.rendererClass.font[0], callback);
         lobbyIdMenu.addMenuItem(0, 1, textBox2);
 
-        let subTable1: Table = new Table(menuItemRenderer, 4, 1, 55, 50);
-        subTable1.addMenuItem(0, 0, new Button(menuItemRenderer, "-->", 55, 50, 2, textBox2.getLinkButtonMethod()));
+        let subTable1: Table = new Table(this.rendererClass.makeMenuItemRenderer(), 4, 1, 55, 50);
+        subTable1.addMenuItem(0, 0, new Button(this.rendererClass.makeMenuItemRenderer(), "-->", 55, 50, 2, textBox2.getLinkButtonMethod()));
         lobbyIdMenu.addMenuItem(0, 2, subTable1);
         return lobbyIdMenu;
     }
@@ -162,7 +162,7 @@ export default class tetrisGame {
         //Callback to initiate the start of the game
         this.tetrisGrid = new TetrisGrid(10, 14);
         this.gridManager = new GridManager(this.tetrisGrid, this.inputManager, this.gameSettings, () => {this.menuScreen.screenType = 2;});
-        this.gridVisual = new GridVisual(this.tetrisGrid, this.rendererClass.gridRenderer.make());
+        this.gridVisual = new GridVisual(this.tetrisGrid, this.rendererClass.makeGridRenderer());
 
         this.gridManager.dispenseNewBrick();
 
@@ -173,7 +173,7 @@ export default class tetrisGame {
         this.gridManager = new GridManager(tetrisGrid, this.inputManager, this.gameSettings, () => {console.log("multiplayer game over!!!")});
         //Pass the user's grid to the multiplayer renderer:
         this.gridManager.dispenseNewBrick();
-        this.multiplayerManager.multiplayerVisual = new MultiplayerVisual(this.multiplayerManager.lobby, this.rendererClass.gridRenderer, new GridVisual(tetrisGrid, this.rendererClass.gridRenderer));
+        this.multiplayerManager.multiplayerVisual = new MultiplayerVisual(this.multiplayerManager.lobby, this.rendererClass, new GridVisual(tetrisGrid, this.rendererClass.makeGridRenderer()));
         this.multiplayerManager.multiplayerVisual.setup();
     }
 

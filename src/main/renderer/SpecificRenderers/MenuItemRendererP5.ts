@@ -8,11 +8,9 @@ import Renderer from "../Renderer";
 export default class MenuItemRendererP5 implements MenuItemRenderer {
 
     private sketch: p5;
-    private renderer: Renderer; //Will only have this if it's the base MenuItemRenderer
 
-    constructor(sketch: p5, renderer?: Renderer) {
+    constructor(sketch: p5) {
         this.sketch = sketch;
-        this.renderer = renderer;
     }
 
     lineMap: RenderedLine[] = [];
@@ -25,14 +23,6 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
 
     getUpdateLoop(): Function {
         return this.updateLoop.bind(this);
-    }
-
-    make(): MenuItemRenderer {
-        if (this.renderer == undefined) {
-            console.error("Attempt to make another renderer from non-base renderer!")
-            return;
-        }
-        return this.renderer.makeMenuItemRendererP5();
     }
 
     clearObjects(): void {

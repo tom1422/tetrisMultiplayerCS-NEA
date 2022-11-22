@@ -27,7 +27,7 @@ export default class Table implements MenuItem {
                 this.menuItems[i] = [];
             }
         }
-        this.menuItemRenderer = menuItemRenderer.make();
+        this.menuItemRenderer = menuItemRenderer;
         this.gridWidth = width;
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
