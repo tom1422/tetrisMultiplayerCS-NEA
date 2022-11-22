@@ -1,0 +1,19 @@
+{
+  "name": "webtetrisgame",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "parcel": "^2.6.0"
+  },
+  "dependencies": {
+    "@types/three": "^0.146.0",
+    "three": "^0.146.0",
+    "@types/p5": "^1.4.2",
+    "p5": "^1.4.1",
+    "socket.io-client": "^4.5.2"
+  }
+}
