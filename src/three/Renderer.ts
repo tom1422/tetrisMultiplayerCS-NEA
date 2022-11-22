@@ -22,6 +22,8 @@ import MovablePlayer from "./MovablePlayer";
 import MeshGenerator from "./MeshGenerator";
 import wumThree2D from "./wumThree2D";
 import wt2Font from "./renderedObjects/wt2Font";
+import wt2Text from "./renderedObjects/wt2Text";
+import wt2Rect from "./renderedObjects/wt2Rect";
 
 
 export class Renderer {
@@ -53,6 +55,11 @@ export class Renderer {
         //Even more setup stuff
         this.wumThree2D = new wumThree2D(this);
 
+        //Make test obects
+        let testobj1 = new wt2Text(this);
+        testobj1.make(2, 3, 2,"test", this.fonts[0], 0);
+        let testobj2 = new wt2Rect(this);
+        testobj2.make(1, 12, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
 
         this.animate();
 
@@ -121,6 +128,10 @@ export class Renderer {
         requestAnimationFrame(this.animate.bind(this));
 
         this.movablePlayer.update();
+
+        if (this.wumThree2D.animFunction!== undefined) {
+            this.wumThree2D.animFunction();
+        }
 
         this.renderer.setRenderTarget(this.readBuffer);
         this.renderer.clear();

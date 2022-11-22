@@ -65,12 +65,12 @@ export default class MeshGenerator {
         return group;
     }
 
-    static drawText(x, y, text, font: Font, align: number): THREE.Mesh {
+    static drawText(x, y, height, text, font: Font, align: number): THREE.Mesh {
         if (font == undefined) return;
-        const tGeometry = new TextGeometry( 'Comic Sans MS. ', {
+        const tGeometry = new TextGeometry( text, {
             font: font,
-            size: 5,
-            height: 2,
+            size: height,
+            height: 0,
             curveSegments: 20,
             bevelEnabled: false,
             bevelThickness: 0.5,

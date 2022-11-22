@@ -4,11 +4,12 @@ import BackgroundManager from "./BackgroundManager";
 import GridRendererP5 from "./SpecificRenderers/GridRendererP5";
 import MenuItemRenderer from "./SpecificRenderers/MenuItemRenderer";
 import MenuItemRendererP5 from "./SpecificRenderers/MenuItemRendererP5";
+import wumThree2D from "../../three/wumThree2D";
 
 export default class Renderer {
 
     sketch: p5;
-    three: any;
+    wt2: wumThree2D;
 
     gridRenderer: GridRenderer;
     menuItemRenderer: MenuItemRenderer;
@@ -21,24 +22,27 @@ export default class Renderer {
         if (this.sketch != undefined) {
             return this.sketch.width;
         }
-        if (this.three != undefined) {
-            return 0;
+        if (this.wt2 != undefined) {
+            return this.wt2.windowWidth;
         }
         return 0;
     }
 
-    constructor(p5?: p5, three2D?: any) {
+    constructor(p5?: p5, wt2?: wumThree2D) {
         if (p5 != undefined) {
             this.gridRenderer = new GridRendererP5(p5, this);
             this.menuItemRenderer = new MenuItemRendererP5(p5, this);
             this.sketch = p5;
-        } else if (three2D != undefined) {
-
+        } else if (wt2 != undefined) {
+            // this.gridRenderer = new GridRendererP5(p5, this);
+            // this.menuItemRenderer = new MenuItemRendererP5(p5, this);
+            this.wt2 = wt2;
         }
+
         this.abstractRendererUpdateFunctions.push(this.gridRenderer.getUpdateLoop());
         this.abstractRendererUpdateFunctions.push(this.menuItemRenderer.getUpdateLoop());
 
-        this.backgroundManager = new BackgroundManager(p5, three2D);
+        this.backgroundManager = new BackgroundManager(p5, wt2);
 
         this.font[0] = "1up";
         this.font[1] = "soopafre";
@@ -49,8 +53,11 @@ export default class Renderer {
                 this.sketch.windowWidth,
                 this.sketch.windowHeight,
                 this.sketch.P2D);
+            this.sketch.windowResized = () => {
+                this.sketch.resizeCanvas(this.sketch.windowWidth, this.sketch.windowHeight);
+            };
         }
-        if (three2D != undefined) {
+        if (this.wt2 != undefined) {
             //Create canvas ETC
         }
     }

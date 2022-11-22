@@ -20,6 +20,8 @@ import MultiplayerVisual from "./networked/MultiplayerVisual";
 import GameSettings from "./GameSettings";
 import MenuItem from "./menu/MenuItem";
 import MenuItemRenderer from "./renderer/SpecificRenderers/MenuItemRenderer";
+import wumThree2D from "../three/wumThree2D";
+import KeyboardInputWT2 from "./userinput/KeyboardInputWT2";
 
 export default class tetrisGame {
     rendererClass: Renderer;
@@ -35,13 +37,15 @@ export default class tetrisGame {
 
     gameSettings: GameSettings;
 
-    constructor(p5?: p5, three2D?: any) {
+    constructor(p5?: p5, wt2?: wumThree2D) {
         if (p5 != undefined) {
             console.log("P5.js stock renderer")
             this.inputManager = new InputManagerSubject(new KeyboardInputP5(p5));
             this.rendererClass = new Renderer(p5);
-        } else if (three2D != undefined) {
+        } else if (wt2 != undefined) {
             console.log("Three js custom renderer")
+            this.inputManager = new InputManagerSubject(new KeyboardInputWT2(wt2));
+            this.rendererClass = new Renderer(undefined, wt2);
         }
         this.gameSettings = new GameSettings();
         this.multiplayerManager = new Multiplayer(this.startMultiplayerGame.bind(this), this.endMultiplayerGame.bind(this));

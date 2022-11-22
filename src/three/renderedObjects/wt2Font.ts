@@ -6,7 +6,7 @@ export default class wt2Font {
     font: Font;
     renderer: Renderer;
 
-    public loadCallback: Function[];
+    public loadCallback: Function[] = [];
 
     constructor(renderer: Renderer, fontLocation: string) {
         this.renderer = renderer;

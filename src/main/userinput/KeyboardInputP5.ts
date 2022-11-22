@@ -10,7 +10,6 @@ export default class KeyboardInputP5 implements KeyboardInputInterface {
 
     constructor(p5:p5) {
         this.scene = p5;
-        var self = this;
         this.scene.keyPressed = (() => {this.keyDown(this.scene.key)});
         this.scene.keyReleased = (() => {this.keyUp(this.scene.key)});
     }

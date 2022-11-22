@@ -7,7 +7,16 @@ export default class wumThree2D {
 
     renderer: Renderer;
 
+    animFunction: Function;
+
     constructor(renderer: Renderer) {
         this.renderer = renderer;
+    }
+
+    get windowWidth() {
+        return window.innerWidth;
+    }
+    get windowHeight() {
+        return window.innerHeight;
     }
 }
