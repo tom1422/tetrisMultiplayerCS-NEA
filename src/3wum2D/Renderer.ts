@@ -1,4 +1,5 @@
 import {
+    Loader,
     Mesh,
     OrthographicCamera,
     PerspectiveCamera,
@@ -13,11 +14,12 @@ import {EffectComposer, FullScreenQuad} from "three/examples/jsm/postprocessing/
 import {ShaderPass} from "three/examples/jsm/postprocessing/ShaderPass";
 import {FXAAShader} from "three/examples/jsm/shaders/FXAAShader";
 import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
-import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
+import {Font, FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 import AAShader from "./AAShader";
 import {PointerLockControls} from "three/examples/jsm/controls/PointerLockControls";
 import MovablePlayer from "./MovablePlayer";
+import MeshGenerator from "./MeshGenerator";
 
 
 export class Renderer {
@@ -35,17 +37,23 @@ export class Renderer {
 
     testText: Mesh;
 
+    fontLoader: FontLoader;
+    fonts: Font[] = [];
+
     constructor() {
         console.log("created class!!!")
         this.setup();
+        this.fontLoader = new FontLoader();
+        this.loadFonts();
         this.movablePlayer = new MovablePlayer(this.camera2);
         this.animate();
 
         this.camera1.position.z = 20;
-        this.camera2.position.z = 40;
-        this.camera2.position.y = 10;
-        this.drawBoxRounded(2, 2, 2, 8, 4, 0xFF0040);
-        this.drawBoxRounded(-23, 20, 2, 8, 4, 0x000040);
+        this.mainScene.add(MeshGenerator.generateRoundedBoxBorder(2, 2, 0.6, 12, 5, 0xFF0040, 4, 0x0040FF));
+        const text = MeshGenerator.drawText(0, 0, "text test", this.fonts[0], 1);
+        if (text != undefined) {
+            this.mainScene.add(text);
+        }
     }
 
     setup() {
@@ -123,5 +131,12 @@ export class Renderer {
 
         this.renderer.setRenderTarget(null);
         this.aaShader.render(this.renderer, this.readBuffer);
+    }
+
+    loadFonts() {
+        this.fontLoader.load( 'assets/ComicSansMS_Regular.json', ( font ) => {
+            this.fonts.push(font);
+            console.log("Font loaded.")
+        });
     }
 }

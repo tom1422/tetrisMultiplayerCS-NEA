@@ -7,7 +7,7 @@ import {
     WebGLRenderer,
     WebGLRenderTarget
 } from "three";
-import THREE = require("three");
+import * as THREE from 'three';
 import {FXAAShader} from "three/examples/jsm/shaders/FXAAShader";
 
 export default class AAShader {

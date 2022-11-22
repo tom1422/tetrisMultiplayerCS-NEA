@@ -30,7 +30,7 @@ export default class SerialisedBrick {
         brick.location.rotation = this.rotation;
         brick.location.x = this.x;
         brick.location.y = this.y;
-        brick.renderedBrick = new RenderedBrick(this.type, Math.floor(Math.random() * 4) + 1);
+        //brick.renderedBrick = new RenderedBrick(this.type, Math.floor(Math.random() * 4) + 1);
         return brick;
     }
 

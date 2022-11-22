@@ -1,10 +1,10 @@
-import * as THREE from "three";
-import {FontLoader} from "three/examples/jsm/loaders/FontLoader";
+import * as THREE from 'three';
+import {Font, FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 
 export default class MeshGenerator {
-    static generateRoundedBox(xIn, yIn, rIn, wIn, hIn, col) {
-        const x = xIn, y = yIn, r = rIn, w = wIn - (rIn * 2), h = hIn - (rIn * 2);
+    static generateRoundedBox(xIn, yIn, rIn, wIn, hIn, col): THREE.Mesh {
+        let x = 0, y = 0, r = rIn, w = wIn - (rIn * 2), h = hIn - (rIn * 2);
 
         const heartShape = new THREE.Shape();
 
@@ -51,18 +51,22 @@ export default class MeshGenerator {
         const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
 
         const mesh = new THREE.Mesh(geometry, material) ;
-        this.mainScene.add( mesh );
+        mesh.position.x = xIn;
+        mesh.position.y = yIn;
+        return mesh;
     }
 
-    static drawText(x, y, text) {
-        const loader = new FontLoader();
-        this.testText = undefined;
 
-        loader.load( 'assets/ComicSansMS_Regular.json', ( font ) => {
-            console.log("Font loaded");
+    static generateRoundedBoxBorder(xIn, yIn, rIn, wIn, hIn, col, bor, colBor): THREE.Group {
+        //First box needs to be wanted size. Second box needs to be bor diff on either side
+        const group = new THREE.Group();
+        group.add( this.generateRoundedBox(xIn, yIn, rIn, wIn, hIn, colBor) );
+        group.add( this.generateRoundedBox(xIn+bor, yIn - bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
+        return group;
+    }
 
-        });
-
+    static drawText(x, y, text, font: Font, align: number): THREE.Mesh {
+        if (font == undefined) return;
         const tGeometry = new TextGeometry( 'Comic Sans MS. ', {
             font: font,
             size: 5,
@@ -74,13 +78,18 @@ export default class MeshGenerator {
             bevelOffset: 0,
             bevelSegments: 5
         } );
-        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x004200} );
-        this.testText = new THREE.Mesh( tGeometry, tMaterial );
-        this.mainScene.add(this.testText);
+        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x000000} );
+        const textMesh = new THREE.Mesh( tGeometry, tMaterial );
 
+        //Change alignment
         tGeometry.computeBoundingBox();
-        this.testText.position.x = (tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x)/2;
-        console.log((tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x)/2)
+        if (align == 1) {
+            textMesh.position.x = (tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x)/2;
+        } else if (align == 2) {
+            textMesh.position.x = (tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x);
+        }
+
+        return textMesh;
     }
 
 }

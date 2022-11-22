@@ -12,6 +12,8 @@ export default class MovablePlayer {
 
     constructor(playerCam: PerspectiveCamera) {
         this.playerCam = playerCam;
+        this.playerCam.position.z = 40;
+        this.playerCam.position.y = 10;
 
         this.pointerLockControls = new PointerLockControls( this.playerCam, document.body );
         this.pointerLockControls.addEventListener( 'lock', function () {
