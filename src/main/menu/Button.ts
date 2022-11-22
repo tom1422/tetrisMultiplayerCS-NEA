@@ -20,6 +20,7 @@ export default class Button implements MenuItem {
     private colourClicked: Colour = new Colour(18, 97 ,46);
     private colourText: Colour = new Colour(0, 0, 0);
     private _currentColour: Colour = this.colour;
+
     private get currentColour() {
         return this._currentColour;
     }
@@ -81,34 +82,18 @@ export default class Button implements MenuItem {
         this.menuItemRenderer.updateRectangle(this.graphicRectangleID, {
             x: (this.xPos) - (this.width / 2),
             y: this.yPos,
-            width: undefined,
-            height: undefined,
-            radius: undefined,
             colour: this.currentColour,
-            strokeColour: undefined
         });
 
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            text: undefined,
             x: (this.xPos),
             y: this.yPos + (this.height / 2),
-            fontSize: undefined,
-            textAlign: undefined,
-            fontName: undefined,
-            colour: undefined,
-            strokeColour: undefined
         });
     }
 
     updateColour() {
         this.menuItemRenderer.updateRectangle(this.graphicRectangleID, {
-            x: undefined,
-            y: undefined,
-            width: undefined,
-            height: undefined,
-            radius: undefined,
             colour: this.currentColour,
-            strokeColour: undefined
         });
     }
 

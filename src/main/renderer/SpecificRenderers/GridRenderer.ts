@@ -21,6 +21,7 @@ export default interface GridRenderer {
 }
 
 export type RenderedRectangle = {
+    isRect?: boolean;
     x?: number;
     y?: number;
     width?: number;
@@ -31,6 +32,7 @@ export type RenderedRectangle = {
 };
 
 export type RenderedText = {
+    isText?: boolean;
     text?: string;
     x?: number;
     y?: number;
@@ -41,6 +43,7 @@ export type RenderedText = {
     strokeColour?: Colour | undefined;
 };
 export type RenderedGrid = {
+    isGrid?: boolean;
     gridArray?: number[][];
     x?: number;
     y?: number;

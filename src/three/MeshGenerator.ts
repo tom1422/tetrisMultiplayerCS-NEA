@@ -45,7 +45,7 @@ export default class MeshGenerator {
         heartShape.arc(r, 0, r, -Math.PI, Math.PI/2, true);
 
         const geometry = new THREE.ShapeGeometry( heartShape , 6);
-        const material = new THREE.MeshBasicMaterial( { color: col } );
+        const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 
         const edges = new THREE.EdgesGeometry( geometry );
         const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
@@ -57,11 +57,11 @@ export default class MeshGenerator {
     }
 
 
-    static generateRoundedBoxBorder(xIn, yIn, rIn, wIn, hIn, col, bor, colBor): THREE.Group {
+    static generateRoundedBoxBorder(xIn, yIn, rIn, wIn, hIn, col, bor, colBor): THREE.Mesh[] {
         //First box needs to be wanted size. Second box needs to be bor diff on either side
-        const group = new THREE.Group();
-        group.add( this.generateRoundedBox(xIn, yIn, rIn, wIn, hIn, colBor) );
-        group.add( this.generateRoundedBox(xIn+bor, yIn - bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
+        const group = [];
+        group.push( this.generateRoundedBox(xIn, yIn, rIn, wIn, hIn, colBor) );
+        group.push( this.generateRoundedBox(xIn+bor, yIn - bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
         return group;
     }
 
@@ -78,7 +78,7 @@ export default class MeshGenerator {
             bevelOffset: 0,
             bevelSegments: 5
         } );
-        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x000000} );
+        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );
         const textMesh = new THREE.Mesh( tGeometry, tMaterial );
 
         //Change alignment

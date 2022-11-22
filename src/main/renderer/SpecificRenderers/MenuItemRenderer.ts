@@ -28,29 +28,32 @@ export default interface MenuItemRenderer {
 }
 
 export type RenderedLine = {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
+    isLine?: boolean;
+    x1?: number;
+    y1?: number;
+    x2?: number;
+    y2?: number;
 };
 
 export type RenderedRectangle = {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    radius: number;
-    colour: Colour;
-    strokeColour: Colour | undefined;
+    isRect?: boolean;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    radius?: number;
+    colour?: Colour;
+    strokeColour?: Colour | undefined;
 };
 
 export type RenderedText = {
-    text: string;
-    x: number;
-    y: number;
-    fontSize: number;
-    textAlign: number;
-    fontName: string;
-    colour: Colour;
-    strokeColour: Colour | undefined;
+    isText?: boolean;
+    text?: string;
+    x?: number;
+    y?: number;
+    fontSize?: number;
+    textAlign?: number;
+    fontName?: string;
+    colour?: Colour;
+    strokeColour?: Colour | undefined;
 };

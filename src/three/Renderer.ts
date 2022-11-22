@@ -63,7 +63,7 @@ export class Renderer {
 
         this.animate();
 
-        this.camera1.position.z = 20;
+        this.camera1.position.z = -20;
     }
 
     setup() {

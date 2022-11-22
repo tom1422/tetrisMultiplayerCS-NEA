@@ -42,14 +42,8 @@ export default class Text implements MenuItem {
         this.xPos = xPos;
         this.yPos = yPos;
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            text: undefined,
             x: xPos,
             y: yPos + this.fontSize/2,
-            fontSize: undefined,
-            textAlign: undefined,
-            fontName: undefined,
-            colour: undefined,
-            strokeColour: undefined,
         });
     }
 
@@ -57,13 +51,6 @@ export default class Text implements MenuItem {
         this.text = newText;
         this.menuItemRenderer.updateText(this.graphicTextID, {
             text: this.text,
-            x: undefined,
-            y: undefined,
-            fontSize: undefined,
-            textAlign: undefined,
-            fontName: undefined,
-            colour: undefined,
-            strokeColour: undefined,
         });
     }
 

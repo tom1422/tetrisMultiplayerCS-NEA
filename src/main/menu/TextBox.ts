@@ -88,23 +88,12 @@ export default class TextBox implements MenuItem, Observer {
         this.xPos = xPos;
         this.yPos = yPos;
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            text: undefined,
             x: (xPos + 10) - (this.width/2),
             y: (yPos + (this.height / 2)),
-            fontSize: undefined,
-            textAlign: undefined,
-            fontName: undefined,
-            colour: undefined,
-            strokeColour: undefined,
         });
         this.menuItemRenderer.updateRectangle(this.graphicBoxID, {
             x: (xPos) - (this.width / 2),
             y: yPos,
-            width: undefined,
-            height: undefined,
-            radius: undefined,
-            colour: undefined,
-            strokeColour: undefined,
         });
     }
 
@@ -114,13 +103,7 @@ export default class TextBox implements MenuItem, Observer {
             boxCol = this.highlightedColour;
         }
         this.menuItemRenderer.updateRectangle(this.graphicBoxID, {
-            x: undefined,
-            y: undefined,
-            width: undefined,
-            height: undefined,
-            radius: undefined,
             colour: boxCol,
-            strokeColour: undefined
         });
     }
 
@@ -133,13 +116,7 @@ export default class TextBox implements MenuItem, Observer {
         }
         this.menuItemRenderer.updateText(this.graphicTextID, {
             text: textToShow,
-            x: undefined,
-            y: undefined,
-            fontSize: undefined,
-            textAlign: undefined,
-            fontName: undefined,
             colour: curTextCol,
-            strokeColour: undefined,
         });
     }
 
