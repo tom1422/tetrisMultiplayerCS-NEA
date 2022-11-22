@@ -20,6 +20,8 @@ import AAShader from "./AAShader";
 import {PointerLockControls} from "three/examples/jsm/controls/PointerLockControls";
 import MovablePlayer from "./MovablePlayer";
 import MeshGenerator from "./MeshGenerator";
+import wumThree2D from "./wumThree2D";
+import wt2Font from "./renderedObjects/wt2Font";
 
 
 export class Renderer {
@@ -29,31 +31,32 @@ export class Renderer {
     readBuffer: WebGLRenderTarget;
     aaShader: AAShader;
 
-
     camera1: OrthographicCamera;
     camera2: PerspectiveCamera;
 
     movablePlayer: MovablePlayer;
 
-    testText: Mesh;
-
     fontLoader: FontLoader;
-    fonts: Font[] = [];
+    fonts: wt2Font[] = [];
+
+    wumThree2D: wumThree2D;
 
     constructor() {
         console.log("created class!!!")
         this.setup();
+
+        //More setup stuff
         this.fontLoader = new FontLoader();
         this.loadFonts();
         this.movablePlayer = new MovablePlayer(this.camera2);
+
+        //Even more setup stuff
+        this.wumThree2D = new wumThree2D(this);
+
+
         this.animate();
 
         this.camera1.position.z = 20;
-        this.mainScene.add(MeshGenerator.generateRoundedBoxBorder(2, 2, 0.6, 12, 5, 0xFF0040, 4, 0x0040FF));
-        const text = MeshGenerator.drawText(0, 0, "text test", this.fonts[0], 1);
-        if (text != undefined) {
-            this.mainScene.add(text);
-        }
     }
 
     setup() {
@@ -134,9 +137,7 @@ export class Renderer {
     }
 
     loadFonts() {
-        this.fontLoader.load( 'assets/ComicSansMS_Regular.json', ( font ) => {
-            this.fonts.push(font);
-            console.log("Font loaded.")
-        });
+        this.fonts.push(new wt2Font(this, "assets/ComicSansMS_Regular.json"))
+
     }
 }
