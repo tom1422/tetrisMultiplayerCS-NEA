@@ -35,7 +35,7 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
         this.lineMap.forEach((value: RenderedLine) => {
             this.sketch.stroke(0, 0, 0);
             this.sketch.strokeWeight(1);
-            this.sketch.line(value.x1, value.y1, value.x2, value.y2);
+            this.sketch.line(value.pos1.x, value.pos1.y, value.pos2.x, value.pos2.y);
         });
 
         this.rectangleMap.forEach((value: RenderedRectangle) => {
@@ -46,8 +46,9 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
                 this.sketch.strokeWeight(1);
                 this.sketch.stroke(value.strokeColour.r, value.strokeColour.g, value.strokeColour.b)
             }
-            this.sketch.rect(value.x, value.y, value.width, value.height, value.radius);
+            this.sketch.rect(value.pos.x, value.pos.y, value.width, value.height, value.radius);
         });
+
         this.textMap.forEach((value: RenderedText) => {
             this.sketch.textSize(value.fontSize)
             this.sketch.fill(value.colour.r, value.colour.g, value.colour.b)
@@ -68,7 +69,7 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
                     this.sketch.textAlign(this.sketch.RIGHT, this.sketch.CENTER)
                     break;
             }
-            this.sketch.text(value.text, value.x, value.y)
+            this.sketch.text(value.text, value.pos.x, value.pos.y)
         });
     }
 
@@ -86,17 +87,14 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
 
     updateLine(id: string, properties: RenderedLine): void {
         let currentProperties: RenderedLine = this.lineMap[parseInt(id)];
-        currentProperties.x1 = (properties.x1 == undefined ? currentProperties.x1 : properties.x1)
-        currentProperties.x2 = (properties.x2 == undefined ? currentProperties.x2 : properties.x2)
-        currentProperties.y1 = (properties.y1 == undefined ? currentProperties.y1 : properties.y1)
-        currentProperties.y2 = (properties.y2 == undefined ? currentProperties.y2 : properties.y2)
+        currentProperties.pos1 = (properties.pos1 == undefined ? currentProperties.pos1 : properties.pos1)
+        currentProperties.pos2 = (properties.pos2 == undefined ? currentProperties.pos2 : properties.pos2)
         this.lineMap[parseInt(id)] = currentProperties;
     }
 
     updateRectangle(id: string, properties: RenderedRectangle): void {
         let currentProperties: RenderedRectangle = this.rectangleMap[parseInt(id)];
-        currentProperties.x = (properties.x == undefined ? currentProperties.x : properties.x)
-        currentProperties.y = (properties.y == undefined ? currentProperties.y : properties.y)
+        currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.width = (properties.width == undefined ? currentProperties.width : properties.width)
         currentProperties.height = (properties.height == undefined ? currentProperties.height : properties.height)
         currentProperties.radius = (properties.radius == undefined ? currentProperties.radius : properties.radius)
@@ -107,8 +105,7 @@ export default class MenuItemRendererP5 implements MenuItemRenderer {
 
     updateText(id: string, properties: RenderedText): void {
         let currentProperties: RenderedText = this.textMap[parseInt(id)];
-        currentProperties.x = (properties.x == undefined ? currentProperties.x : properties.x)
-        currentProperties.y = (properties.y == undefined ? currentProperties.y : properties.y)
+        currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.text = (properties.text == undefined ? currentProperties.text : properties.text)
         currentProperties.textAlign = (properties.textAlign == undefined ? currentProperties.textAlign : properties.textAlign)
         currentProperties.fontName = (properties.fontName == undefined ? currentProperties.fontName : properties.fontName)

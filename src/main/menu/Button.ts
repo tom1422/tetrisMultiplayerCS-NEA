@@ -4,6 +4,7 @@ import Renderer from "../renderer/Renderer";
 import MenuItem from "./MenuItem";
 import ClickerComponent from "./reusable/ClickerComponent";
 import MenuItemRenderer from "../renderer/SpecificRenderers/MenuItemRenderer";
+import Coordinate from "../other/Coordinate";
 
 export default class Button implements MenuItem {
 
@@ -56,8 +57,7 @@ export default class Button implements MenuItem {
         const xPos = 20;
         const yPos = 20;
         this.graphicRectangleID = this.menuItemRenderer.createRectangle({
-            x: (xPos) - (this.width / 2),
-            y: yPos,
+            pos: new Coordinate((xPos) - (this.width / 2), yPos),
             width: this.width,
             height: this.height,
             radius: 10,
@@ -66,8 +66,7 @@ export default class Button implements MenuItem {
 
         this.graphicTextID = this.menuItemRenderer.createText({
             text: this.text,
-            x: (xPos),
-            y: yPos,
+            pos: new Coordinate(xPos, yPos),
             fontSize: this.fontSize,
             textAlign: 1,
             fontName: "Trebuchet MS",
@@ -80,14 +79,12 @@ export default class Button implements MenuItem {
         this.yPos = yPos;
 
         this.menuItemRenderer.updateRectangle(this.graphicRectangleID, {
-            x: (this.xPos) - (this.width / 2),
-            y: this.yPos,
+            pos: new Coordinate(this.xPos - (this.width/2), this.yPos),
             colour: this.currentColour,
         });
 
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            x: (this.xPos),
-            y: this.yPos + (this.height / 2),
+            pos: new Coordinate(this.xPos, this.yPos + (this.height/2)),
         });
     }
 

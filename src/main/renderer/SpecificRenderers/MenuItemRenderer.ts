@@ -1,4 +1,6 @@
 import Colour from "../../other/Colour";
+import Coordinate from "../../other/Coordinate";
+import {coordinate} from "../../../three/renderedObjects/wt2positionTranslator";
 
 export default interface MenuItemRenderer {
 
@@ -29,16 +31,13 @@ export default interface MenuItemRenderer {
 
 export type RenderedLine = {
     isLine?: boolean;
-    x1?: number;
-    y1?: number;
-    x2?: number;
-    y2?: number;
+    pos1?: Coordinate;
+    pos2?: coordinate;
 };
 
 export type RenderedRectangle = {
     isRect?: boolean;
-    x?: number;
-    y?: number;
+    pos?: Coordinate;
     width?: number;
     height?: number;
     radius?: number;
@@ -49,8 +48,7 @@ export type RenderedRectangle = {
 export type RenderedText = {
     isText?: boolean;
     text?: string;
-    x?: number;
-    y?: number;
+    pos?: Coordinate;
     fontSize?: number;
     textAlign?: number;
     fontName?: string;

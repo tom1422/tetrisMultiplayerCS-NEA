@@ -1,6 +1,7 @@
 import MenuItem from "./MenuItem";
 import * as p5 from "p5";
 import MenuItemRenderer from "../renderer/SpecificRenderers/MenuItemRenderer";
+import Coordinate from "../other/Coordinate";
 
 export default class Table implements MenuItem {
 
@@ -96,28 +97,20 @@ export default class Table implements MenuItem {
         let x = xMidpoint - (w/2);
         let y = top;
         this.menuItemRenderer.createLine({
-            x1: x,
-            y1: y,
-            x2: x+w,
-            y2: y,
+            pos1: new Coordinate(x, y),
+            pos2: new Coordinate(x+w, y),
         });
         this.menuItemRenderer.createLine({
-            x1: x+w,
-            y1: y,
-            x2: x+w,
-            y2: y+h,
+            pos1: new Coordinate(x+w, y),
+            pos2: new Coordinate(x+w, y+h),
         });
         this.menuItemRenderer.createLine({
-            x1: x,
-            y1: y+h,
-            x2: x+w,
-            y2: y+h,
+            pos1: new Coordinate(x, y+h),
+            pos2: new Coordinate(x+w, y+h),
         });
         this.menuItemRenderer.createLine({
-            x1: x,
-            y1: y,
-            x2: x,
-            y2: y+h,
+            pos1: new Coordinate(x, y),
+            pos2: new Coordinate(x, y+h),
         });
     }
 

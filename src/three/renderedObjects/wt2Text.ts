@@ -5,6 +5,7 @@ import {Color, Mesh, Object3D} from "three";
 import wt2Font from "./wt2Font";
 import wt2positionTranslator, {coordinate} from "./wt2positionTranslator";
 import * as THREE from "three";
+import wt2Line from "./wt2Line";
 
 export default class wt2Text {
 
@@ -14,6 +15,8 @@ export default class wt2Text {
 
     runAfterLoad: Function[] = [];
     loaded: boolean = true;
+
+    debugLine: wt2Line;
 
     constructor(renderer: Renderer) {
         this.renderer = renderer;
@@ -27,6 +30,8 @@ export default class wt2Text {
                 this.loaded = true;
                 this.runAfterLoad.forEach((value) => {value();});
             })
+        } else {
+            return;
         }
         this.makeAndAdd(x, y, height, text, font, align);
     }
@@ -34,21 +39,28 @@ export default class wt2Text {
     private makeAndAdd(x, y, height, text, font: wt2Font, align: number) {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.makeAndAdd(x, y, height, text, font, align); }); return; }
 
-        let newCoords: coordinate = wt2positionTranslator.translateCoordinates({x:x, y:y});
-        this.object = MeshGenerator.drawText(newCoords.x, newCoords.y, height, text, font.font, align);
-        this.renderer.mainScene.add(this.object);
+        this.object = MeshGenerator.drawText(height, text, font.font, 0);
+
+        //Debug
+        this.debugLine = new wt2Line(this.renderer);
+        this.debugLine.make(x, y);
+
+        //this.setPosition(x, y);
+        this.show();
     }
 
     public hide() {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.hide(); }); return; }
 
         this.renderer.mainScene.remove(this.object);
+        this.debugLine.hide();
     }
 
     public show() {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.show(); }); return; }
 
         this.renderer.mainScene.add(this.object);
+        this.debugLine.show();
     }
 
     public setColour(threeColor: Color) {
@@ -60,11 +72,16 @@ export default class wt2Text {
 
     public setPosition(x,y) {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.setPosition(x,y); }); return; }
+
+        let newCoords: coordinate = wt2positionTranslator.translateCoordinates({x:x, y:y});
+
         if (x != undefined) {
-            this.object.position.x = x;
+            this.object.position.x = newCoords.x;
+            this.debugLine.setPosition(x, undefined);
         }
         if (y != undefined) {
-            this.object.position.y = y;
+            this.object.position.y = newCoords.y;
+            this.debugLine.setPosition(undefined, y);
         }
     }
 

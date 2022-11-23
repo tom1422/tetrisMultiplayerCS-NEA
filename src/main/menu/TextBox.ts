@@ -7,6 +7,7 @@ import Colour from "../other/Colour";
 import ClickerComponent from "./reusable/ClickerComponent";
 import KeyBurst from "../userinput/KeyBurst";
 import MenuItemRenderer from "../renderer/SpecificRenderers/MenuItemRenderer";
+import Coordinate from "../other/Coordinate";
 
 export default class TextBox implements MenuItem, Observer {
 
@@ -54,8 +55,7 @@ export default class TextBox implements MenuItem, Observer {
 
     createBox(xPos: number, yPos: number): void {
         this.graphicBoxID = this.menuItemRenderer.createRectangle({
-            x: (xPos) - (this.width / 2),
-            y: yPos,
+            pos: new Coordinate((xPos)-(this.width/2), yPos),
             width: this.width,
             height: this.height,
             radius: 10,
@@ -66,8 +66,7 @@ export default class TextBox implements MenuItem, Observer {
     createText(xPos: number, yPos: number): void {
         this.graphicTextID = this.menuItemRenderer.createText({
             text: this.bgText,
-            x: (xPos + 10) - (this.width/2),
-            y: (yPos + (this.height / 2)),
+            pos: new Coordinate((xPos+10)-(this.width/2), (yPos + (this.height/2)),),
             fontSize: this.fontSize,
             textAlign: 0,
             fontName: "Trebuchet MS",
@@ -88,12 +87,10 @@ export default class TextBox implements MenuItem, Observer {
         this.xPos = xPos;
         this.yPos = yPos;
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            x: (xPos + 10) - (this.width/2),
-            y: (yPos + (this.height / 2)),
+            pos: new Coordinate((xPos + 10) - (this.width/2), (yPos + (this.height / 2))),
         });
         this.menuItemRenderer.updateRectangle(this.graphicBoxID, {
-            x: (xPos) - (this.width / 2),
-            y: yPos,
+            pos: new Coordinate((xPos) - (this.width / 2), yPos),
         });
     }
 

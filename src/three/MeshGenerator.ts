@@ -57,15 +57,15 @@ export default class MeshGenerator {
     }
 
 
-    static generateRoundedBoxBorder(xIn, yIn, rIn, wIn, hIn, col, bor, colBor): THREE.Mesh[] {
+    static generateRoundedBoxBorder(rIn, wIn, hIn, col, bor, colBor): THREE.Mesh[] {
         //First box needs to be wanted size. Second box needs to be bor diff on either side
         const group = [];
-        group.push( this.generateRoundedBox(xIn, yIn, rIn, wIn, hIn, colBor) );
-        group.push( this.generateRoundedBox(xIn+bor, yIn - bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
+        group.push( this.generateRoundedBox(0, 0, rIn, wIn, hIn, colBor) );
+        group.push( this.generateRoundedBox(bor, -bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
         return group;
     }
 
-    static drawText(x, y, height, text, font: Font, align: number): THREE.Mesh {
+    static drawText(height, text, font: Font, align: number): THREE.Mesh {
         if (font == undefined) return;
         const tGeometry = new TextGeometry( text, {
             font: font,
@@ -78,16 +78,17 @@ export default class MeshGenerator {
             bevelOffset: 0,
             bevelSegments: 5
         } );
-        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );
-        const textMesh = new THREE.Mesh( tGeometry, tMaterial );
 
         //Change alignment
         tGeometry.computeBoundingBox();
         if (align == 1) {
-            textMesh.position.x = (tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x)/2;
+            tGeometry.translate((tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x)/2, 0, 0);
         } else if (align == 2) {
-            textMesh.position.x = (tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x);
+            tGeometry.translate((tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x), 0, 0);
         }
+
+        const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );
+        const textMesh = new THREE.Mesh( tGeometry, tMaterial );
 
         return textMesh;
     }

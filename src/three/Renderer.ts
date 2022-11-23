@@ -56,14 +56,15 @@ export class Renderer {
         this.wumThree2D = new wumThree2D(this);
 
         //Make test obects
-        let testobj1 = new wt2Text(this);
-        testobj1.make(2, 3, 2,"test", this.fonts[0], 0);
+        // let testobj1 = new wt2Text(this);
+        // testobj1.make(2, 3, 2,"test", this.fonts[0], 0);
         let testobj2 = new wt2Rect(this);
-        testobj2.make(1, 12, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
+        testobj2.make(0, 0, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
+        testobj2.setPosition(10, 10)
 
         this.animate();
 
-        this.camera1.position.z = -20;
+        this.camera1.position.z = 20;
     }
 
     setup() {
@@ -114,6 +115,10 @@ export class Renderer {
         this.camera1.right = width / 2;
         this.camera1.top = height / 2;
         this.camera1.bottom = height / -2;
+        // this.camera1.left = -window.innerWidth;
+        // this.camera1.right = window.innerWidth;
+        // this.camera1.top = window.innerHeight;
+        // this.camera1.bottom = -window.innerHeight;
         this.camera1.updateProjectionMatrix();
 
         this.camera2.aspect = width / height;

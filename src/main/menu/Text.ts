@@ -3,6 +3,7 @@ import * as p5 from "p5";
 import Renderer from "../renderer/Renderer";
 import Colour from "../other/Colour";
 import MenuItemRenderer from "../renderer/SpecificRenderers/MenuItemRenderer";
+import Coordinate from "../other/Coordinate";
 
 export default class Text implements MenuItem {
     private menuItemRenderer: MenuItemRenderer;
@@ -42,8 +43,7 @@ export default class Text implements MenuItem {
         this.xPos = xPos;
         this.yPos = yPos;
         this.menuItemRenderer.updateText(this.graphicTextID, {
-            x: xPos,
-            y: yPos + this.fontSize/2,
+            pos: new Coordinate(xPos, yPos + this.fontSize/2),
         });
     }
 
@@ -59,8 +59,7 @@ export default class Text implements MenuItem {
         const yPos = 0;
         this.graphicTextID = this.menuItemRenderer.createText({
             text: this.text,
-            x: xPos,
-            y: yPos + this.fontSize/2,
+            pos: new Coordinate(xPos, (yPos + this.fontSize/2)),
             fontSize: this.fontSize,
             textAlign: this.align,
             fontName: this.font,
