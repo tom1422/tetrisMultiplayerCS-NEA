@@ -3,7 +3,7 @@ import {Font, FontLoader} from "three/examples/jsm/loaders/FontLoader";
 import {TextGeometry} from "three/examples/jsm/geometries/TextGeometry";
 
 export default class MeshGenerator {
-    static generateRoundedBox(xIn, yIn, rIn, wIn, hIn, col): THREE.Mesh {
+    static generateRoundedBox(xIn, yIn, rIn, wIn, hIn): THREE.Mesh {
         let x = 0, y = 0, r = rIn, w = wIn - (rIn * 2), h = hIn - (rIn * 2);
 
         const heartShape = new THREE.Shape();
@@ -57,11 +57,11 @@ export default class MeshGenerator {
     }
 
 
-    static generateRoundedBoxBorder(rIn, wIn, hIn, col, bor, colBor): THREE.Mesh[] {
+    static generateRoundedBoxBorder(rIn, wIn, hIn, bor): THREE.Mesh[] {
         //First box needs to be wanted size. Second box needs to be bor diff on either side
         const group = [];
-        group.push( this.generateRoundedBox(0, 0, rIn, wIn, hIn, colBor) );
-        group.push( this.generateRoundedBox(bor, -bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor, col) );
+        group.push( this.generateRoundedBox(0, 0, rIn, wIn, hIn) );
+        group.push( this.generateRoundedBox(bor, -bor, (rIn-bor < 0) ? 0 : rIn-bor, wIn-2*bor, hIn-2*bor) );
         return group;
     }
 
@@ -86,6 +86,8 @@ export default class MeshGenerator {
         } else if (align == 2) {
             tGeometry.translate((tGeometry.boundingBox.min.x - tGeometry.boundingBox.max.x), 0, 0);
         }
+        tGeometry.translate(0, ((tGeometry.boundingBox.min.y - tGeometry.boundingBox.max.y)/2), 0);
+        //^^ vertical alignment is always central
 
         const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );
         const textMesh = new THREE.Mesh( tGeometry, tMaterial );

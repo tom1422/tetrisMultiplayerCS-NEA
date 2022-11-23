@@ -1,9 +1,11 @@
 import MenuItemRenderer, {RenderedLine, RenderedRectangle, RenderedText} from "./MenuItemRenderer";
 import * as p5 from "p5";
 import wumThree2D from "../../../three/wumThree2D";
-import wt2Rect from "../../../three/renderedObjects/wt2Rect";
-import wt2Text from "../../../three/renderedObjects/wt2Text";
+import wt2Rect, {rectPosInfo} from "../../../three/renderedObjects/wt2Rect";
+import wt2Text, {textPosInfo} from "../../../three/renderedObjects/wt2Text";
 import * as THREE from "three";
+import Coordinate from "../../other/Coordinate";
+import Colour from "../../other/Colour";
 
 export default class MenuItemRendererWT2 implements MenuItemRenderer {
 
@@ -16,6 +18,14 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
 
     constructor(wt2: wumThree2D) {
         this.wt2 = wt2;
+        this.createRectangle({
+            pos: new Coordinate(wt2.windowWidth-20,wt2.windowHeight-20),
+            radius: 5,
+            width: 20,
+            height: 20,
+            strokeColour: new Colour(2, 2,2),
+            colour: new Colour(2, 2,2 ),
+        })
     }
 
     updateLoop() {
@@ -65,8 +75,11 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
         properties.isRect = true;
         let index: number = this.items.push(properties)-1;
         let rect = new wt2Rect(this.wt2.renderer);
-        rect.make(properties.x, properties.y, properties.radius, properties.width, properties.height, properties.colour, properties.radius, properties.strokeColour);
-        rect.setColour(new THREE.Color(properties.colour.r/255, properties.colour.g/255, properties.colour.b/255), new THREE.Color(properties.strokeColour.r/255, properties.strokeColour.g/255, properties.strokeColour.b/255))
+
+        rect.make(this.translateRect(properties.pos, properties.width, properties.height, properties.radius, 1));
+        rect.setColour(this.translateColour(properties.colour));
+        rect.setStrokeColour(this.translateColour(properties.strokeColour));
+
         this.wt2Shapes[index] = rect;
         return (index).toString();
     }
@@ -75,8 +88,10 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
         properties.isText = true;
         let index: number = this.items.push(properties)-1;
         let text = new wt2Text(this.wt2.renderer);
-        text.make(properties.x, properties.y, properties.fontSize, properties.text, this.wt2.renderer.fonts[0], properties.textAlign);
-        text.setColour(new THREE.Color(properties.colour.r/255, properties.colour.g/255, properties.colour.b/255));
+
+        text.make(this.translateText(properties.pos, properties.fontSize), properties.text, this.wt2.renderer.fonts[0], properties.textAlign);
+        text.setColour(this.translateColour(properties.colour))
+
         this.wt2Shapes[index] = text;
         return (index).toString();
     }
@@ -89,34 +104,75 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
         if (id == undefined) return;
         let rectToUpdate: wt2Rect = this.wt2Shapes[parseInt(id)]
 
-        rectToUpdate.setPosition(properties.x, properties.y);
-        if (properties.colour != undefined) rectToUpdate.setColour(new THREE.Color(properties.colour.r/255, properties.colour.g/255, properties.colour.b/255), undefined);
-        if (properties.strokeColour != undefined) rectToUpdate.setColour(undefined, new THREE.Color(properties.strokeColour.r/255, properties.strokeColour.g/255, properties.strokeColour.b/255));
+        if (properties.pos != undefined) rectToUpdate.setPosition(this.translateCoordinates(properties.pos));
+        if (properties.colour != undefined) rectToUpdate.setColour(this.translateColour(properties.colour));
+        if (properties.strokeColour != undefined) rectToUpdate.setStrokeColour(this.translateColour(properties.strokeColour));
     }
 
     updateText(id: string, properties: RenderedText): void {
         if (id == undefined) return;
         let textToUpdate: wt2Text = this.wt2Shapes[parseInt(id)]
 
-        textToUpdate.setPosition(properties.x, properties.y);
-        if (properties.colour != undefined) textToUpdate.setColour(new THREE.Color(properties.colour.r/255, properties.colour.g/255, properties.colour.b/255));
+        if (properties.pos != undefined) textToUpdate.setPosition(this.translateCoordinates(properties.pos));
+        if (properties.colour != undefined) textToUpdate.setColour(this.translateColour(properties.colour));
 
     }
 
     get mouseButton(): string {
-        return "";
+        return "left";
     }
 
     get mouseIsPressed(): boolean {
-        return false;
+        return this.wt2.mousePressed;
     }
 
     get mouseX(): number {
-        return 0;
+        return this.wt2.mouseX;
     }
 
     get mouseY(): number {
-        return 0;
+        return this.wt2.mouseY;
+    }
+
+    translateCoordinates(inCoords: Coordinate): Coordinate {
+        let newX = inCoords.x;
+        let newY = inCoords.y;
+
+        //Scale by factor of 40
+        newX *= 1/20;
+        newY *= 1/20;
+
+        //Flip Y
+        newY *= -1;
+
+        //Translate to origin
+        newX -= (this.wt2.windowWidth/(40));
+        newY += (this.wt2.windowHeight/(40));
+
+
+
+        return new Coordinate(newX, newY);
+    }
+
+    translateRect(inCoords: Coordinate, width: number, height: number, radius: number, borWid: number): rectPosInfo {
+        return {
+            pos: this.translateCoordinates(inCoords),
+            width: width/20,
+            height: height/20,
+            radius: radius/20,
+            borWid: borWid/20
+        }
+    }
+
+    translateText(inCoords: Coordinate, height: number): textPosInfo {
+        return {
+            pos: this.translateCoordinates(inCoords),
+            height: height/20,
+        }
+    }
+
+    translateColour(colour: Colour): THREE.Color {
+        return new THREE.Color(colour.r/255, colour.g/255, colour.b/255);
     }
 
 }

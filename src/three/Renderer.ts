@@ -24,6 +24,7 @@ import wumThree2D from "./wumThree2D";
 import wt2Font from "./renderedObjects/wt2Font";
 import wt2Text from "./renderedObjects/wt2Text";
 import wt2Rect from "./renderedObjects/wt2Rect";
+import Coordinate from "../main/other/Coordinate";
 
 
 export class Renderer {
@@ -58,9 +59,19 @@ export class Renderer {
         //Make test obects
         // let testobj1 = new wt2Text(this);
         // testobj1.make(2, 3, 2,"test", this.fonts[0], 0);
-        let testobj2 = new wt2Rect(this);
-        testobj2.make(0, 0, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
-        testobj2.setPosition(10, 10)
+        // let testobj2 = new wt2Rect(this);
+        // testobj2.make(0, 0, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
+        // testobj2.setPosition(10, 10)
+
+        //Make more test objects LOL
+        // let testObj1 = new wt2Rect(this)
+        // testObj1.make({
+        //     pos: new Coordinate(-window.innerWidth/40,window.innerHeight/40),
+        //     width: window.innerWidth/20,
+        //     height: window.innerHeight/20,
+        //     radius: 2,
+        //     borWid: 2,
+        // })
 
         this.animate();
 
@@ -109,12 +120,12 @@ export class Renderer {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.readBuffer.setSize(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio);
 
-        let width = window.innerWidth / 20;
-        let height = window.innerHeight / 20;
-        this.camera1.left = width / -2;
-        this.camera1.right = width / 2;
-        this.camera1.top = height / 2;
-        this.camera1.bottom = height / -2;
+        let width = window.innerWidth / 40;
+        let height = window.innerHeight / 40;
+        this.camera1.left = width * -1;
+        this.camera1.right = width;
+        this.camera1.top = height;
+        this.camera1.bottom = height * -1;
         // this.camera1.left = -window.innerWidth;
         // this.camera1.right = window.innerWidth;
         // this.camera1.top = window.innerHeight;

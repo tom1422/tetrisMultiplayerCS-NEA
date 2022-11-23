@@ -4,6 +4,7 @@ import MeshGenerator from "../MeshGenerator";
 import wt2positionTranslator, {coordinate} from "./wt2positionTranslator";
 import * as THREE from "three";
 import Colour from "../../main/other/Colour";
+import Coordinate from "../../main/other/Coordinate";
 
 export default class wt2Line {
 
@@ -15,7 +16,7 @@ export default class wt2Line {
         this.renderer = renderer;
     }
 
-    make(x, y) {
+    make(pos: Coordinate) {
         //create a blue LineBasicMaterial
         const material = new THREE.LineBasicMaterial( { color: 0x000000 } );
 
@@ -27,7 +28,7 @@ export default class wt2Line {
 
         this.object = new THREE.Line( geometry, material );
 
-        this.setPosition(x, y);
+        this.setPosition(pos);
 
         this.show();
     }
@@ -43,14 +44,9 @@ export default class wt2Line {
     public setColour(button: Color, stroke: Color) {
     }
 
-    public setPosition(x,y) {
-        let newCoords: coordinate = wt2positionTranslator.translateCoordinates({x:x, y:y});
-        if (x != undefined) {
-            this.object.position.x = newCoords.x;
-        }
-        if (y != undefined) {
-            this.object.position.y = newCoords.y;
-        }
+    public setPosition(pos: Coordinate) {
+        this.object.position.x = pos.x;
+        this.object.position.y = pos.y;
     }
 
 }

@@ -5,6 +5,7 @@ import wt2positionTranslator, {coordinate} from "./wt2positionTranslator";
 import * as THREE from "three";
 import Colour from "../../main/other/Colour";
 import wt2Line from "./wt2Line";
+import Coordinate from "../../main/other/Coordinate";
 
 export default class wt2Rect {
 
@@ -20,19 +21,20 @@ export default class wt2Rect {
         this.renderer = renderer;
     }
 
-    make(x, y, radius, width, height, colour, borderWid, borderColour) {
-
-
-        let obj1 = MeshGenerator.generateRoundedBoxBorder(radius, width, height, colour, borderWid, borderColour);
+    make(posInfo: rectPosInfo) {
+        let obj1 = MeshGenerator.generateRoundedBoxBorder(posInfo.radius, posInfo.width, posInfo.height, posInfo.borWid);
         this.background = obj1[0];
         this.foreground = obj1[1];
         this.object = new THREE.Group();
         this.object.add(this.background);
         this.object.add(this.foreground);
 
+
         //Debug
         this.debugLine = new wt2Line(this.renderer);
-        this.debugLine.make(x, y);
+        this.debugLine.make(posInfo.pos);
+
+        this.setPosition(posInfo.pos);
 
         this.show();
     }
@@ -47,25 +49,30 @@ export default class wt2Rect {
         this.debugLine.show();
     }
 
-    public setColour(button: Color, stroke: Color) {
+    public setColour(button: Color) {
         if (button != undefined) {
-            this.background.material = new THREE.MeshBasicMaterial( { color: stroke } );
-        }
-        if (stroke != undefined) {
             this.foreground.material = new THREE.MeshBasicMaterial( { color: button } );
         }
     }
 
-    public setPosition(x,y) {
-        let newCoords: coordinate = wt2positionTranslator.translateCoordinates({x:x, y:y});
-        if (x != undefined) {
-            this.object.position.x = newCoords.x;
-            this.debugLine.setPosition(x, undefined);
-        }
-        if (y != undefined) {
-            this.object.position.y = newCoords.y;
-            this.debugLine.setPosition(undefined, y);
+    public setStrokeColour(stroke: Color) {
+        if (stroke != undefined) {
+            this.background.material = new THREE.MeshBasicMaterial( { color: stroke } );
         }
     }
 
+    public setPosition(pos: Coordinate) {
+        this.object.position.x = pos.x;
+        this.object.position.y = pos.y;
+        this.debugLine.setPosition(pos);
+    }
+
+}
+
+export type rectPosInfo = {
+    pos: Coordinate;
+    width: number;
+    height: number;
+    radius: number;
+    borWid: number;
 }
