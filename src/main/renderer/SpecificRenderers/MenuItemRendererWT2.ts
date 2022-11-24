@@ -11,7 +11,7 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
 
     wt2: wumThree2D;
     visible: boolean = true;
-    updatedThisFrame: boolean = false;
+    updateThisFrame: boolean = false;
 
     wt2Shapes: any[] = [];
 
@@ -20,8 +20,8 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     }
 
     updateLoop() {
-        if (this.updatedThisFrame) {
-            this.updatedThisFrame = false;
+        if (this.updateThisFrame) {
+            this.updateThisFrame = false;
             this.showAll();
         } else {
             this.hideAll();
@@ -55,7 +55,7 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     }
 
     drawThisFrame(): void {
-        this.updatedThisFrame = true;
+        this.updateThisFrame = true;
     }
 
     createLine(properties: RenderedLine): string {

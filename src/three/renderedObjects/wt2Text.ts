@@ -19,7 +19,7 @@ export default class wt2Text {
     font: Font;
 
     runAfterLoad: Function[] = [];
-    loaded: boolean = false;
+    waiting: boolean = true;
 
     debugLine: wt2Line;
 
@@ -30,19 +30,22 @@ export default class wt2Text {
     make(posInfo: textPosInfo, text: string, font: wt2Font, align: number) {
         if (font.font == undefined) {
             //Wait for font
-            this.loaded = false;
+            this.waiting = true;
             font.loadCallback.push(() => {
-                this.loaded = true;
-                this.runAfterLoad.forEach((value) => {value();});
+                this.waiting = false;
+                this.runAfterLoad.forEach((value) => {
+                    value();
+                });
             })
         } else {
-            return;
+            this.waiting = false;
         }
         this.makeAndAdd(posInfo.pos, posInfo.height, text, font, align);
     }
 
     private makeAndAdd(pos: Coordinate, height: number, text: string, font: wt2Font, align: number) {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.makeAndAdd(pos, height, text, font, align); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.makeAndAdd(pos, height, text, font, align); }); return; }
+
 
         this.object = MeshGenerator.drawText(height, text, font.font, align);
         this.height = height;
@@ -58,28 +61,28 @@ export default class wt2Text {
     }
 
     public hide() {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.hide(); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.hide(); }); return; }
 
         this.renderer.mainScene.remove(this.object);
         this.debugLine.hide();
     }
 
     public show() {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.show(); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.show(); }); return; }
 
         this.renderer.mainScene.add(this.object);
         this.debugLine.show();
     }
 
     public setColour(threeColor: Color) {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.setColour(threeColor); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.setColour(threeColor); }); return; }
 
         this.object.material = new THREE.MeshBasicMaterial( { color: threeColor} );
     }
 
 
     public setPosition(pos: Coordinate) {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.setPosition(pos); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.setPosition(pos); }); return; }
 
         this.object.position.x = pos.x;
         this.object.position.y = pos.y;
@@ -87,13 +90,13 @@ export default class wt2Text {
     }
 
     public setWeight(weight: number) {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.setWeight(weight); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.setWeight(weight); }); return; }
 
         this.object.position.z = weight;
     }
 
     public setText(newText: string) {
-        if (!this.loaded) { this.runAfterLoad.push(() => { this.setText(newText); }); return; }
+        if (this.waiting) { this.runAfterLoad.push(() => { this.setText(newText); }); return; }
 
         this.object.geometry = MeshGenerator.textGeo(this.height, newText, this.font, this.align);
     }

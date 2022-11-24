@@ -71,7 +71,7 @@ export default class MeshGenerator {
             font: font,
             size: height,
             height: 0,
-            curveSegments: 20,
+            curveSegments: 1,
             bevelEnabled: false,
             bevelThickness: 0.5,
             bevelSize: 0.2,
@@ -92,6 +92,7 @@ export default class MeshGenerator {
     }
 
     static drawText(height, text, font: Font, align: number): THREE.Mesh {
+
         const tGeometry = this.textGeo(height, text, font, align);
 
         const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );

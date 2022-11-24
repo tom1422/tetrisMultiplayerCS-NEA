@@ -1,5 +1,6 @@
 import Colour from "../../other/Colour";
 import {RenderedLine} from "./MenuItemRenderer";
+import Coordinate from "../../other/Coordinate";
 
 export default interface GridRenderer {
 
@@ -22,8 +23,7 @@ export default interface GridRenderer {
 
 export type RenderedRectangle = {
     isRect?: boolean;
-    x?: number;
-    y?: number;
+    pos?: Coordinate;
     width?: number;
     height?: number;
     radius?: number;
@@ -34,8 +34,7 @@ export type RenderedRectangle = {
 export type RenderedText = {
     isText?: boolean;
     text?: string;
-    x?: number;
-    y?: number;
+    pos?: Coordinate;
     fontSize?: number;
     textAlign?: number;
     fontName?: string;
@@ -45,8 +44,7 @@ export type RenderedText = {
 export type RenderedGrid = {
     isGrid?: boolean;
     gridArray?: number[][];
-    x?: number;
-    y?: number;
+    pos?: Coordinate;
     boxWidth?: number;
     boxHeight?: number;
     boxRadius?: number;

@@ -40,7 +40,7 @@ export default class GridRendererP5 implements GridRenderer {
                         this.sketch.fill(col.r, col.g, col.b, col.a)
                         this.sketch.stroke(col.r - 40, col.g - 40, col.b - 40, 255);
                         this.sketch.strokeWeight(value.boxRadius);
-                        this.sketch.rect(value.x + (value.boxWidth + value.boxRadius) * i, value.y + (value.boxHeight + value.boxRadius) * j,
+                        this.sketch.rect(value.pos.x + (value.boxWidth + value.boxRadius) * i, value.pos.y + (value.boxHeight + value.boxRadius) * j,
                             value.boxWidth, value.boxHeight, value.boxRadius);
                     }
                 }
@@ -53,7 +53,7 @@ export default class GridRendererP5 implements GridRenderer {
                 } else {
                     this.sketch.stroke(value.strokeColour.r, value.strokeColour.g, value.strokeColour.b)
                 }
-                this.sketch.rect(value.x, value.y, value.width, value.height, value.radius);
+                this.sketch.rect(value.pos.x, value.pos.y, value.width, value.height, value.radius);
             } else if (arrayItem.isText) {
                 let value: RenderedText = arrayItem;
                 this.sketch.textSize(value.fontSize)
@@ -74,7 +74,7 @@ export default class GridRendererP5 implements GridRenderer {
                         this.sketch.textAlign(this.sketch.RIGHT, this.sketch.CENTER)
                         break;
                 }
-                this.sketch.text(value.text, value.x, value.y)
+                this.sketch.text(value.text, value.pos.x, value.pos.y)
             }
         });
     }
@@ -97,8 +97,7 @@ export default class GridRendererP5 implements GridRenderer {
     updateGrid(id: string, properties: RenderedGrid): void {
         let currentProperties: RenderedGrid = this.items[parseInt(id)].properties;
         currentProperties.gridArray = (properties.gridArray == undefined ? currentProperties.gridArray : properties.gridArray)
-        currentProperties.x = (properties.x == undefined ? currentProperties.x : properties.x)
-        currentProperties.y = (properties.y == undefined ? currentProperties.y : properties.y)
+        currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.boxWidth = (properties.boxWidth == undefined ? currentProperties.boxWidth : properties.boxWidth)
         currentProperties.boxHeight = (properties.boxHeight == undefined ? currentProperties.boxHeight : properties.boxHeight)
         currentProperties.boxRadius = (properties.boxRadius == undefined ? currentProperties.boxRadius : properties.boxRadius)
@@ -107,8 +106,7 @@ export default class GridRendererP5 implements GridRenderer {
 
     updateRectangle(id: string, properties: RenderedRectangle): void {
         let currentProperties: RenderedRectangle = this.items[parseInt(id)].properties;
-        currentProperties.x = (properties.x == undefined ? currentProperties.x : properties.x)
-        currentProperties.y = (properties.y == undefined ? currentProperties.y : properties.y)
+        currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.width = (properties.width == undefined ? currentProperties.width : properties.width)
         currentProperties.height = (properties.height == undefined ? currentProperties.height : properties.height)
         currentProperties.radius = (properties.radius == undefined ? currentProperties.radius : properties.radius)
@@ -119,8 +117,7 @@ export default class GridRendererP5 implements GridRenderer {
 
     updateText(id: string, properties: RenderedText): void {
         let currentProperties: RenderedText = this.items[parseInt(id)].properties;
-        currentProperties.x = (properties.x == undefined ? currentProperties.x : properties.x)
-        currentProperties.y = (properties.y == undefined ? currentProperties.y : properties.y)
+        currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.text = (properties.text == undefined ? currentProperties.text : properties.text)
         currentProperties.textAlign = (properties.textAlign == undefined ? currentProperties.textAlign : properties.textAlign)
         currentProperties.fontName = (properties.fontName == undefined ? currentProperties.fontName : properties.fontName)

@@ -1,6 +1,8 @@
 import GridRenderer from "./renderer/SpecificRenderers/GridRenderer";
 import TetrisGrid from "./TetrisGrid";
 import Colour from "./other/Colour";
+import Coordinate from "./other/Coordinate";
+import UsefulUtils from "./other/UsefulUtils";
 
 export default class GridVisual {
 
@@ -81,8 +83,10 @@ export default class GridVisual {
         });
         this.gridRenderer.updateGrid(this.graphicGrid_CurrentBrick, {
             gridArray: (this.grid.currentBrick == undefined ? [] : this.grid.currentBrick.getRotatedBrick(true)),
-            x: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
-            y: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset,
+            zeroIsTransparent: true,
+            pos: new Coordinate(
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset),
         });
         this.gridRenderer.updateText(this.graphicText_Score, {
             text: "Score: " + this.grid.score,
@@ -94,47 +98,57 @@ export default class GridVisual {
 
     updateAllPositions() {
         this.gridRenderer.updateRectangle(this.graphicRect_Game, {
-            x: this.xOffset-1,
-            y: this.yOffset-1,
+            pos: new Coordinate(
+                this.xOffset-1,
+                this.yOffset-1),
         });
         this.gridRenderer.updateGrid(this.graphicGrid_Game, {
-            x: this.xOffset,
-            y: this.yOffset,
+            pos: new Coordinate(
+                this.xOffset,
+                this.yOffset),
         });
         this.gridRenderer.updateGrid(this.graphicGrid_Next, {
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 22,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 22),
         });
         this.gridRenderer.updateGrid(this.graphicGrid_Saved, {
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 152,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 152),
         });
         this.gridRenderer.updateGrid(this.graphicGrid_CurrentBrick, {
-            x: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
-            y: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset,
+            pos: new Coordinate(
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset),
         });
         this.gridRenderer.updateText(this.graphicText_Name, {
-            x: (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
-            y: this.yOffset - 27,
+            pos: new Coordinate(
+                (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
+                this.yOffset - 27),
         });
         this.gridRenderer.updateText(this.graphicText_Score, {
-            x: (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
-            y: this.yOffset - 10,
+            pos: new Coordinate(
+                (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
+                this.yOffset - 10),
         });
         this.gridRenderer.updateText(this.graphicText_Next, {
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 12,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 12),
         });
         this.gridRenderer.updateText(this.graphicText_Saved, {
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 142,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 142),
         });
     }
 
     createGrid() {
         this.graphicRect_Game = this.gridRenderer.createRectangle({
-            x: this.xOffset-1,
-            y: this.yOffset-1,
+            pos: new Coordinate(
+                this.xOffset-1,
+                this.yOffset-1),
             width: ((this.squareSize + this.squareBorderSize) * this.grid.gridArray.length - this.squareBorderSize) + 6,
             height: ((this.squareSize + this.squareBorderSize) * this.grid.gridArray[0].length - this.squareBorderSize) + 6,
             radius: 4,
@@ -143,32 +157,36 @@ export default class GridVisual {
         });
         this.graphicGrid_Game = this.gridRenderer.createGrid({
             gridArray: this.grid.gridArray,
-            x: this.xOffset,
-            y: this.yOffset,
+            pos: new Coordinate(
+                this.xOffset,
+                this.yOffset),
             boxWidth: this.squareSize,
             boxHeight: this.squareSize,
             boxRadius: 1,
         });
         this.graphicGrid_Next = this.gridRenderer.createGrid({
-            gridArray: (this.grid.nextBrick == undefined ? [] : this.grid.nextBrick.getRotatedBrick(true)),
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 22,
+            gridArray: (this.grid.nextBrick == undefined ? UsefulUtils.generate2DNumberArray(4, 4, true) : this.grid.nextBrick.getRotatedBrick(true)),
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 22),
             boxWidth: this.squareSize,
             boxHeight: this.squareSize,
             boxRadius: 1,
         });
         this.graphicGrid_Saved = this.gridRenderer.createGrid({
-            gridArray: (this.grid.savedBrick == undefined ? [] : this.grid.savedBrick.getRotatedBrick(true)),
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 152,
+            gridArray: (this.grid.savedBrick == undefined ? UsefulUtils.generate2DNumberArray(4, 4, true) : this.grid.savedBrick.getRotatedBrick(true)),
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 152),
             boxWidth: this.squareSize,
             boxHeight: this.squareSize,
             boxRadius: 1,
         });
         this.graphicGrid_CurrentBrick = this.gridRenderer.createGrid({
-            gridArray: (this.grid.currentBrick == undefined ? [] : this.grid.currentBrick.getRotatedBrick(true)),
-            x: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
-            y: (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset,
+            gridArray: (this.grid.currentBrick == undefined ? UsefulUtils.generate2DNumberArray(4, 4, true) : this.grid.currentBrick.getRotatedBrick(true)),
+            pos: new Coordinate(
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.x) + this.xOffset,
+                (this.squareSize + this.squareBorderSize )*(this.grid.currentBrick == undefined ? 0 : this.grid.currentBrick.location.y) + this.yOffset),
             boxWidth: this.squareSize,
             boxHeight: this.squareSize,
             boxRadius: 1,
@@ -179,8 +197,9 @@ export default class GridVisual {
     createText() {
         this.graphicText_Name = this.gridRenderer.createText({
             text: this.grid.username,
-            x: (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
-            y: this.yOffset - 27,
+            pos: new Coordinate(
+                (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
+                this.yOffset - 27),
             fontSize: 20,
             textAlign: 1,
             fontName: "Trebuchet MS",
@@ -189,8 +208,9 @@ export default class GridVisual {
         });
         this.graphicText_Score = this.gridRenderer.createText({
             text: "Score: " + this.grid.score,
-            x: (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
-            y: this.yOffset - 10,
+            pos: new Coordinate(
+                (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
+                this.yOffset - 10),
             fontSize: 20,
             textAlign: 1,
             fontName: "Trebuchet MS",
@@ -199,8 +219,9 @@ export default class GridVisual {
         });
         this.graphicText_Next = this.gridRenderer.createText({
             text: "Next Brick",
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 12,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 12),
             fontSize: 15,
             textAlign: 0,
             fontName: "Trebuchet MS",
@@ -209,8 +230,9 @@ export default class GridVisual {
         });
         this.graphicText_Saved = this.gridRenderer.createText({
             text: "Saved Brick",
-            x: (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
-            y: this.yOffset + 142,
+            pos: new Coordinate(
+                (this.xOffset + 35 + (this.squareSize*this.grid.gridArray.length)),
+                this.yOffset + 142),
             fontSize: 15,
             textAlign: 0,
             fontName: "Trebuchet MS",
@@ -221,8 +243,9 @@ export default class GridVisual {
 
     createEliminatedScreen() {
         this.graphicRect_Eliminated = this.gridRenderer.createRectangle({
-            x: this.xOffset,
-            y: this.yOffset,
+            pos: new Coordinate(
+                this.xOffset,
+                this.yOffset),
             width: ((this.squareSize + this.squareBorderSize) * this.grid.gridArray.length - this.squareBorderSize) + 6,
             height: ((this.squareSize + this.squareBorderSize) * this.grid.gridArray[0].length - this.squareBorderSize) + 6,
             radius: 5,
@@ -232,8 +255,9 @@ export default class GridVisual {
 
         this.graphicText_Eliminated = this.gridRenderer.createText({
             text: "Eliminated",
-            x: (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
-            y: this.yOffset + 35,
+            pos: new Coordinate(
+                (this.xOffset + (this.squareSize*this.grid.gridArray.length)/2),
+                this.yOffset + 35),
             fontSize: 27,
             textAlign: 1,
             fontName: "Trebuchet MS",

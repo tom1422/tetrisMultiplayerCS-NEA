@@ -51,7 +51,7 @@ export class Renderer {
         //More setup stuff
         this.fontLoader = new FontLoader();
         this.loadFonts();
-        //this.movablePlayer = new MovablePlayer(this.camera2);
+        this.movablePlayer = new MovablePlayer(this.camera2);
 
         //Even more setup stuff
         this.wumThree2D = new wumThree2D(this);
@@ -126,7 +126,7 @@ export class Renderer {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        //this.movablePlayer.update();
+        this.movablePlayer.update();
 
         if (this.wumThree2D.animFunction!== undefined) {
             this.wumThree2D.animFunction();
