@@ -25,6 +25,7 @@ export default class wt2Rect {
         let obj1 = MeshGenerator.generateRoundedBoxBorder(posInfo.radius, posInfo.width, posInfo.height, posInfo.borWid);
         this.background = obj1[0];
         this.foreground = obj1[1];
+        this.foreground.position.z += 0.5;
         this.object = new THREE.Group();
         this.object.add(this.background);
         this.object.add(this.foreground);
@@ -65,6 +66,10 @@ export default class wt2Rect {
         this.object.position.x = pos.x;
         this.object.position.y = pos.y;
         this.debugLine.setPosition(pos);
+    }
+
+    public setWeight(weight: number) {
+        this.object.position.z = weight;
     }
 
 }

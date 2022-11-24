@@ -51,27 +51,10 @@ export class Renderer {
         //More setup stuff
         this.fontLoader = new FontLoader();
         this.loadFonts();
-        this.movablePlayer = new MovablePlayer(this.camera2);
+        //this.movablePlayer = new MovablePlayer(this.camera2);
 
         //Even more setup stuff
         this.wumThree2D = new wumThree2D(this);
-
-        //Make test obects
-        // let testobj1 = new wt2Text(this);
-        // testobj1.make(2, 3, 2,"test", this.fonts[0], 0);
-        // let testobj2 = new wt2Rect(this);
-        // testobj2.make(0, 0, 2, 10, 5, 0xFF0000, 0.2, 0x00FF00);
-        // testobj2.setPosition(10, 10)
-
-        //Make more test objects LOL
-        // let testObj1 = new wt2Rect(this)
-        // testObj1.make({
-        //     pos: new Coordinate(-window.innerWidth/40,window.innerHeight/40),
-        //     width: window.innerWidth/20,
-        //     height: window.innerHeight/20,
-        //     radius: 2,
-        //     borWid: 2,
-        // })
 
         this.animate();
 
@@ -143,7 +126,7 @@ export class Renderer {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        this.movablePlayer.update();
+        //this.movablePlayer.update();
 
         if (this.wumThree2D.animFunction!== undefined) {
             this.wumThree2D.animFunction();
@@ -154,7 +137,7 @@ export class Renderer {
         this.renderer.render(this.mainScene, this.camera1);
 
         this.renderer.clearDepth();
-        this.renderer.render(this.mainScene, this.camera2);
+        //this.renderer.render(this.mainScene, this.camera2);
 
         this.renderer.setClearColor(0x87CEFA);
         this.renderer.setClearAlpha(1);

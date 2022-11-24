@@ -13,19 +13,10 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     visible: boolean = true;
     updatedThisFrame: boolean = false;
 
-    items: any[] = [];
     wt2Shapes: any[] = [];
 
     constructor(wt2: wumThree2D) {
         this.wt2 = wt2;
-        this.createRectangle({
-            pos: new Coordinate(wt2.windowWidth-20,wt2.windowHeight-20),
-            radius: 5,
-            width: 20,
-            height: 20,
-            strokeColour: new Colour(2, 2,2),
-            colour: new Colour(2, 2,2 ),
-        })
     }
 
     updateLoop() {
@@ -72,27 +63,25 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     }
 
     createRectangle(properties: RenderedRectangle): string {
-        properties.isRect = true;
-        let index: number = this.items.push(properties)-1;
         let rect = new wt2Rect(this.wt2.renderer);
+        const index = this.wt2Shapes.push(rect)-1;
 
         rect.make(this.translateRect(properties.pos, properties.width, properties.height, properties.radius, 1));
         rect.setColour(this.translateColour(properties.colour));
         rect.setStrokeColour(this.translateColour(properties.strokeColour));
+        rect.setWeight(index);
 
-        this.wt2Shapes[index] = rect;
         return (index).toString();
     }
 
     createText(properties: RenderedText): string {
-        properties.isText = true;
-        let index: number = this.items.push(properties)-1;
         let text = new wt2Text(this.wt2.renderer);
+        const index = this.wt2Shapes.push(text)-1;
 
         text.make(this.translateText(properties.pos, properties.fontSize), properties.text, this.wt2.renderer.fonts[0], properties.textAlign);
         text.setColour(this.translateColour(properties.colour))
+        text.setWeight(index);
 
-        this.wt2Shapes[index] = text;
         return (index).toString();
     }
 
@@ -103,6 +92,7 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     updateRectangle(id: string, properties: RenderedRectangle): void {
         if (id == undefined) return;
         let rectToUpdate: wt2Rect = this.wt2Shapes[parseInt(id)]
+        console.log("updaing a rectangle", properties)
 
         if (properties.pos != undefined) rectToUpdate.setPosition(this.translateCoordinates(properties.pos));
         if (properties.colour != undefined) rectToUpdate.setColour(this.translateColour(properties.colour));

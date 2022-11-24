@@ -16,7 +16,7 @@ export default class wt2Text {
     object: Mesh;
 
     runAfterLoad: Function[] = [];
-    loaded: boolean = true;
+    loaded: boolean = false;
 
     debugLine: wt2Line;
 
@@ -78,6 +78,12 @@ export default class wt2Text {
         this.object.position.x = pos.x;
         this.object.position.y = pos.y;
         this.debugLine.setPosition(pos);
+    }
+
+    public setWeight(weight: number) {
+        if (!this.loaded) { this.runAfterLoad.push(() => { this.setWeight(weight); }); return; }
+
+        this.object.position.z = weight;
     }
 
 }
