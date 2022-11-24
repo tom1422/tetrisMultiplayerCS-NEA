@@ -3,12 +3,13 @@ import TetrisGrid from "./TetrisGrid";
 import Colour from "./other/Colour";
 import Coordinate from "./other/Coordinate";
 import UsefulUtils from "./other/UsefulUtils";
+import Renderer from "./renderer/Renderer";
 
 export default class GridVisual {
 
     gridRenderer: GridRenderer;
 
-    lastXOffset: number = 0;
+    resized: boolean = false;
     xOffset: number = 0;
     yOffset: number = 40;
 
@@ -31,9 +32,10 @@ export default class GridVisual {
     graphicText_Eliminated: string;
     graphicRect_Eliminated: string;
 
-    constructor(grid: TetrisGrid, tetrisGridR: GridRenderer) {
+    constructor(grid: TetrisGrid, gridRenderer: GridRenderer, renderer: Renderer) {
+        renderer.onWindowResize.push(this.windowResize.bind(this));
         this.grid = grid;
-        this.gridRenderer = tetrisGridR;
+        this.gridRenderer = gridRenderer;
         this.squareSize = 20;
 
         this.createGrid();
@@ -41,8 +43,13 @@ export default class GridVisual {
 
         //On game state update...
         this.grid.sendVisualUpdate = this.updateGameInformation.bind(this);
+
+        this.windowResize();
     }
 
+    windowResize() {
+        this.resized = true;
+    }
 
     recenter(): void {
         this.xOffset = (this.gridRenderer.canvasWidth / 2) - ((this.grid.gridArray.length * this.squareSize) / 2);
@@ -50,15 +57,14 @@ export default class GridVisual {
 
     //Draw each frame
     update(xPos?: number, yPos?: number): void {
-        this.lastXOffset = this.xOffset;
         if (xPos != undefined) {
             this.xOffset = xPos;
             this.yOffset = yPos;
         } else {
             this.recenter();
         }
-        if (this.lastXOffset !== this.xOffset) {
-            this.lastXOffset = this.xOffset;
+        if (this.resized) {
+            this.resized = false;
             this.updateAllPositions();
         }
 

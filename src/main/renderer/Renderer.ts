@@ -16,6 +16,9 @@ export default class Renderer {
     backgroundManager: BackgroundManager;
 
     abstractRendererUpdateFunctions: Function[] = [];
+
+    onWindowResize: Function[] = [];
+
     font: any[] = [];
 
     get width() {
@@ -53,6 +56,9 @@ export default class Renderer {
         if (this.wt2 != undefined) {
             //Create canvas ETC
         }
+
+        //On window resize function
+        window.addEventListener('resize',()=>{this.onWindowResize.forEach((value)=>{value();})});
     }
 
     update(): void {

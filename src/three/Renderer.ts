@@ -27,7 +27,7 @@ import wt2Rect from "./renderedObjects/wt2Rect";
 import Coordinate from "../main/other/Coordinate";
 
 
-export class Renderer {
+export class Renderer { //you seen the news this week?? 💦💦💦
 
     mainScene: Scene;
     renderer: WebGLRenderer;
@@ -51,7 +51,7 @@ export class Renderer {
         //More setup stuff
         this.fontLoader = new FontLoader();
         this.loadFonts();
-        this.movablePlayer = new MovablePlayer(this.camera2);
+        //this.movablePlayer = new MovablePlayer(this.camera2);
 
         //Even more setup stuff
         this.wumThree2D = new wumThree2D(this);
@@ -109,10 +109,6 @@ export class Renderer {
         this.camera1.right = width;
         this.camera1.top = height;
         this.camera1.bottom = height * -1;
-        // this.camera1.left = -window.innerWidth;
-        // this.camera1.right = window.innerWidth;
-        // this.camera1.top = window.innerHeight;
-        // this.camera1.bottom = -window.innerHeight;
         this.camera1.updateProjectionMatrix();
 
         this.camera2.aspect = width / height;
@@ -126,7 +122,7 @@ export class Renderer {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        this.movablePlayer.update();
+        //this.movablePlayer.update();
 
         if (this.wumThree2D.animFunction!== undefined) {
             this.wumThree2D.animFunction();

@@ -12,13 +12,14 @@ export default class MenuScreen {
     menuItems: any = [];
 
     renderer: Renderer;
-    lastWidth: number = 0;
+    resized: boolean = false;
 
     constructor(renderer: Renderer) {
         for (let i: number = 0; i < 7; i++) {
             this.menuItems[i] = [];
         }
         this.renderer = renderer;
+        this.renderer.onWindowResize.push(this.windowResize.bind(this));
     }
 
     public updateMenuItemPositions(): void {
@@ -32,10 +33,14 @@ export default class MenuScreen {
         }
     }
 
+    windowResize(): void {
+        this.resized = true;
+    }
+
     public update(): void {
-        if (this.renderer.width !== this.lastWidth) {
-            this.lastWidth = this.renderer.width;
+        if (this.resized) {
             this.updateMenuItemPositions();
+            this.resized = false;
         }
         this.menuItems[this.screenType].forEach((button: MenuItem) => {
             if (!button.update()) {

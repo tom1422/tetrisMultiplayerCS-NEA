@@ -8,6 +8,7 @@ export default class wumThree2D {
     renderer: Renderer;
 
     animFunction: Function;
+    public onWindowResize: Function[] = [];
 
     mousePressed: boolean = false;
     mouseX: number = 0;

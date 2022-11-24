@@ -20,7 +20,7 @@ export default class MultiplayerVisual {
 
     setup() {
         for (let i: number = 1; i < this.lobby.users.length; i++) {
-            this.gridVisuals.set(this.lobby.users[i].userID, new GridVisual(new TetrisGrid(10, 20), this.renderer.makeGridRenderer()));
+            this.gridVisuals.set(this.lobby.users[i].userID, new GridVisual(new TetrisGrid(10, 20), this.renderer.makeGridRenderer(), this.renderer));
         }
     }
 

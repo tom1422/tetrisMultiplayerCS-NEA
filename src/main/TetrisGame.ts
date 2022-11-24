@@ -162,7 +162,7 @@ export default class tetrisGame {
         //Callback to initiate the start of the game
         this.tetrisGrid = new TetrisGrid(10, 14);
         this.gridManager = new GridManager(this.tetrisGrid, this.inputManager, this.gameSettings, () => {this.menuScreen.screenType = 2;});
-        this.gridVisual = new GridVisual(this.tetrisGrid, this.rendererClass.makeGridRenderer());
+        this.gridVisual = new GridVisual(this.tetrisGrid, this.rendererClass.makeGridRenderer(), this.rendererClass);
 
         this.gridManager.dispenseNewBrick();
 
@@ -173,7 +173,7 @@ export default class tetrisGame {
         this.gridManager = new GridManager(tetrisGrid, this.inputManager, this.gameSettings, () => {console.log("multiplayer game over!!!")});
         //Pass the user's grid to the multiplayer renderer:
         this.gridManager.dispenseNewBrick();
-        this.multiplayerManager.multiplayerVisual = new MultiplayerVisual(this.multiplayerManager.lobby, this.rendererClass, new GridVisual(tetrisGrid, this.rendererClass.makeGridRenderer()));
+        this.multiplayerManager.multiplayerVisual = new MultiplayerVisual(this.multiplayerManager.lobby, this.rendererClass, new GridVisual(tetrisGrid, this.rendererClass.makeGridRenderer(), this.rendererClass));
         this.multiplayerManager.multiplayerVisual.setup();
     }
 
