@@ -137,7 +137,7 @@ export class Renderer {
         this.renderer.render(this.mainScene, this.camera1);
 
         this.renderer.clearDepth();
-        //this.renderer.render(this.mainScene, this.camera2);
+        this.renderer.render(this.mainScene, this.camera2);
 
         this.renderer.setClearColor(0x87CEFA);
         this.renderer.setClearAlpha(1);

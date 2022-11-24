@@ -65,7 +65,7 @@ export default class MeshGenerator {
         return group;
     }
 
-    static drawText(height, text, font: Font, align: number): THREE.Mesh {
+    static textGeo(height, text, font: Font, align: number): TextGeometry {
         if (font == undefined) return;
         const tGeometry = new TextGeometry( text, {
             font: font,
@@ -88,6 +88,11 @@ export default class MeshGenerator {
         }
         tGeometry.translate(0, ((tGeometry.boundingBox.min.y - tGeometry.boundingBox.max.y)/2), 0);
         //^^ vertical alignment is always central
+        return tGeometry;
+    }
+
+    static drawText(height, text, font: Font, align: number): THREE.Mesh {
+        const tGeometry = this.textGeo(height, text, font, align);
 
         const tMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00} );
         const textMesh = new THREE.Mesh( tGeometry, tMaterial );

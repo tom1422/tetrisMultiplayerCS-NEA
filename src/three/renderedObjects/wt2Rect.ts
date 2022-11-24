@@ -30,7 +30,6 @@ export default class wt2Rect {
         this.object.add(this.background);
         this.object.add(this.foreground);
 
-
         //Debug
         this.debugLine = new wt2Line(this.renderer);
         this.debugLine.make(posInfo.pos);

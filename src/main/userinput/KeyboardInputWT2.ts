@@ -7,8 +7,12 @@ export default class KeyboardInputWT2 implements KeyboardInputInterface {
     keyUp: Function;
 
     constructor(wt2:wumThree2D) {
-        // this.scene.keyPressed = (() => {this.keyDown(this.scene.key)});
-        // this.scene.keyReleased = (() => {this.keyUp(this.scene.key)});
+        document.addEventListener( 'keydown', (event) => {
+            this.keyDown(event.key)
+        });
+        document.addEventListener( 'keyup', (event) => {
+            this.keyUp(event.key)
+        });
     }
 
     runOnKeyDown(callback: Function) {

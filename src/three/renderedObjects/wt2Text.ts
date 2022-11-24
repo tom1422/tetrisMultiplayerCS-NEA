@@ -14,6 +14,9 @@ export default class wt2Text {
     renderer: Renderer;
 
     object: Mesh;
+    height: number;
+    align: number;
+    font: Font;
 
     runAfterLoad: Function[] = [];
     loaded: boolean = false;
@@ -42,6 +45,9 @@ export default class wt2Text {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.makeAndAdd(pos, height, text, font, align); }); return; }
 
         this.object = MeshGenerator.drawText(height, text, font.font, align);
+        this.height = height;
+        this.align = align;
+        this.font = font.font;
 
         //Debug
         this.debugLine = new wt2Line(this.renderer);
@@ -84,6 +90,12 @@ export default class wt2Text {
         if (!this.loaded) { this.runAfterLoad.push(() => { this.setWeight(weight); }); return; }
 
         this.object.position.z = weight;
+    }
+
+    public setText(newText: string) {
+        if (!this.loaded) { this.runAfterLoad.push(() => { this.setText(newText); }); return; }
+
+        this.object.geometry = MeshGenerator.textGeo(this.height, newText, this.font, this.align);
     }
 
 }

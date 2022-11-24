@@ -92,7 +92,6 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
     updateRectangle(id: string, properties: RenderedRectangle): void {
         if (id == undefined) return;
         let rectToUpdate: wt2Rect = this.wt2Shapes[parseInt(id)]
-        console.log("updaing a rectangle", properties)
 
         if (properties.pos != undefined) rectToUpdate.setPosition(this.translateCoordinates(properties.pos));
         if (properties.colour != undefined) rectToUpdate.setColour(this.translateColour(properties.colour));
@@ -105,7 +104,7 @@ export default class MenuItemRendererWT2 implements MenuItemRenderer {
 
         if (properties.pos != undefined) textToUpdate.setPosition(this.translateCoordinates(properties.pos));
         if (properties.colour != undefined) textToUpdate.setColour(this.translateColour(properties.colour));
-
+        if (properties.text != undefined) textToUpdate.setText(properties.text);
     }
 
     get mouseButton(): string {
