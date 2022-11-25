@@ -67,7 +67,6 @@ export default class wt2Grid {
     }
 
     public setColours(colorGrid: Color[][]) {
-        console.log("Drawing grid: ", colorGrid, this.cells)
         if (colorGrid == undefined) return;
         for (let i: number = 0; i < colorGrid.length; i++) {
             for (let j: number = 0; j < colorGrid[i].length; j++) {
