@@ -51,6 +51,7 @@ export default class MeshGenerator {
         const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
 
         const mesh = new THREE.Mesh(geometry, material) ;
+        mesh.material = material;
         mesh.position.x = xIn;
         mesh.position.y = yIn;
         return mesh;

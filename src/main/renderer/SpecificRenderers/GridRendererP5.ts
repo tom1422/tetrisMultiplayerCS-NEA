@@ -26,7 +26,6 @@ export default class GridRendererP5 implements GridRenderer {
     }
 
     drawThisFrame(): void {
-
         this.items.forEach( (arrayItem: any) => {
             if (arrayItem.isGrid) {
                 let value: RenderedGrid = arrayItem;
@@ -81,42 +80,42 @@ export default class GridRendererP5 implements GridRenderer {
 
     createGrid(properties: RenderedGrid): string {
         properties.isGrid = true;
-        return (this.items.push({type: 0, properties: properties})-1).toString();
+        return (this.items.push(properties)-1).toString();
     }
 
     createRectangle(properties: RenderedRectangle): string {
         properties.isRect = true;
-        return (this.items.push({type: 1, properties: properties})-1).toString();
+        return (this.items.push(properties)-1).toString();
     }
 
     createText(properties: RenderedText): string {
         properties.isText = true;
-        return (this.items.push({type: 2, properties: properties})-1).toString();
+        return (this.items.push(properties)-1).toString();
     }
 
     updateGrid(id: string, properties: RenderedGrid): void {
-        let currentProperties: RenderedGrid = this.items[parseInt(id)].properties;
+        let currentProperties: RenderedGrid = this.items[parseInt(id)];
         currentProperties.gridArray = (properties.gridArray == undefined ? currentProperties.gridArray : properties.gridArray)
         currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.boxWidth = (properties.boxWidth == undefined ? currentProperties.boxWidth : properties.boxWidth)
         currentProperties.boxHeight = (properties.boxHeight == undefined ? currentProperties.boxHeight : properties.boxHeight)
         currentProperties.boxRadius = (properties.boxRadius == undefined ? currentProperties.boxRadius : properties.boxRadius)
-        this.items[parseInt(id)].properties = currentProperties;
+        this.items[parseInt(id)] = currentProperties;
     }
 
     updateRectangle(id: string, properties: RenderedRectangle): void {
-        let currentProperties: RenderedRectangle = this.items[parseInt(id)].properties;
+        let currentProperties: RenderedRectangle = this.items[parseInt(id)];
         currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.width = (properties.width == undefined ? currentProperties.width : properties.width)
         currentProperties.height = (properties.height == undefined ? currentProperties.height : properties.height)
         currentProperties.radius = (properties.radius == undefined ? currentProperties.radius : properties.radius)
         currentProperties.colour = (properties.colour == undefined ? currentProperties.colour : properties.colour)
         currentProperties.strokeColour = (properties.strokeColour == undefined ? currentProperties.strokeColour : properties.strokeColour)
-        this.items[parseInt(id)].properties = currentProperties;
+        this.items[parseInt(id)] = currentProperties;
     }
 
     updateText(id: string, properties: RenderedText): void {
-        let currentProperties: RenderedText = this.items[parseInt(id)].properties;
+        let currentProperties: RenderedText = this.items[parseInt(id)];
         currentProperties.pos = (properties.pos == undefined ? currentProperties.pos : properties.pos)
         currentProperties.text = (properties.text == undefined ? currentProperties.text : properties.text)
         currentProperties.textAlign = (properties.textAlign == undefined ? currentProperties.textAlign : properties.textAlign)
@@ -124,7 +123,7 @@ export default class GridRendererP5 implements GridRenderer {
         currentProperties.fontSize = (properties.fontSize == undefined ? currentProperties.fontSize : properties.fontSize)
         currentProperties.colour = (properties.colour == undefined ? currentProperties.colour : properties.colour)
         currentProperties.strokeColour = (properties.strokeColour == undefined ? currentProperties.strokeColour : properties.strokeColour)
-        this.items[parseInt(id)].properties = currentProperties;
+        this.items[parseInt(id)] = currentProperties;
     }
 
 
